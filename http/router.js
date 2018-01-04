@@ -2,12 +2,10 @@
 
 
 /**
- * @apiDefine ServiceGroup ServiceGroup
- * Provide ability to group service offered by a jurisdiction(s)
- * into meaningful categories e.g Sanitation
- * It provides a way to group several service request types (issues)
- * under meaningful categories such as Sanitation, Commercial, Billing,
- * Non-Commercial etc.
+ * @apiDefine Priority Priority
+ * Manage entity(i.e service & service request(issue)) priority.
+ * Provides a way to prioritize service and service request
+ * types (issues) in order of their importance.
  */
 
 //dependencies
