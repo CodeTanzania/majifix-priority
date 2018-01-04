@@ -33,7 +33,7 @@ function priorityRouter(options) {
     response({
       types: 'json'
     })
-  ]
+  ];
 
   //   ensure all pre middlewares
   const optionsAllMiddlewares = _.get(options, 'pre', []);
