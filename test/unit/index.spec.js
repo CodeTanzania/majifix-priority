@@ -35,4 +35,9 @@ describe('Index', () => {
     expect(Object.getPrototypeOf(priorityRouter)).to.equal(express.Router);
   });
 
+  it('should have seed property which is a function', () => {
+    const library = index();
+    expect(library).to.contain.keys('seed');
+    expect(library.seed).to.be.a('function');
+  });
 });

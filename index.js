@@ -13,7 +13,7 @@ let mongoose = require('mongoose');
 const _ = require('lodash');
 const Model = require(path.join(__dirname, 'models', 'priority'));
 const priorityRouter = require(path.join(__dirname, 'http', 'router'));
-
+const seed = require(path.join(__dirname, 'utils', 'seed'));
 
 module.exports = function (options) {
 
@@ -27,6 +27,7 @@ module.exports = function (options) {
 
   return {
     model: Model,
-    router: Router
+    router: Router,
+    seed: seed
   };
 };
