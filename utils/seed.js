@@ -13,8 +13,7 @@
 //  dependencies
 const path = require('path');
 const _ = require('lodash');
-const Priority = require(path.join(__dirname, '..', 'models',
-  'priority'));
+const Priority = require(path.join(__dirname, '..', 'models', 'priority'));
 
 module.exports = function (priorities, done) {
 
