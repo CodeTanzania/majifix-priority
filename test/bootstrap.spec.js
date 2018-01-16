@@ -43,7 +43,7 @@ function wipe(done) {
 
 //setup database
 before(function (done) {
-  mongoose.connect('mongodb://localhost/majifix-service-group', done);
+  mongoose.connect('mongodb://localhost/majifix-priorities', done);
 });
 
 // restore initial environment
