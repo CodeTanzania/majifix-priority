@@ -7,6 +7,8 @@ const path = require('path');
 const expect = require('chai').expect;
 const faker = require('faker');
 const seed = require(path.join(__dirname, '..', '..', '..', 'utils', 'seed'));
+// const Priority = require(path.join(__dirname, '..', '..', '..', 'models',
+//   'priority'));
 
 describe('Seed function', () => {
 

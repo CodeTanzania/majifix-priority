@@ -13,19 +13,54 @@
 //  dependencies
 const path = require('path');
 const _ = require('lodash');
+const async = require('async');
 const Priority = require(path.join(__dirname, '..', 'models', 'priority'));
+
+
+/**
+ * Run parallel saving priorities into the database
+ * @function
+ * @param {Array} priorities
+ * @param {Function} done
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+function savePriorities(priorities, done) {
+
+  priorities = _.map(priorities, function (priority) {
+    return function (next) {
+      Priority.findOneAndUpdate({
+        name: priority.name
+      }, priority, {
+        new: true,
+        upsert: true,
+        runValidators: true,
+        setDefaultsOnInsert: true
+      }, next);
+    };
+  });
+
+  // asynchronous save priorities
+  async.parallel(priorities, done);
+}
+
 
 module.exports = function (priorities, done) {
 
-  priorities = _.concat([], priorities);
+  const defaultPriorities = [];
 
-  Priority.create(priorities, function (error, results) {
+  if (arguments.length === 1 && _.isFunction(arguments[0])) {
+    // save default priorities
+    return savePriorities(defaultPriorities, arguments[0]);
+  }
 
-    if (error) {
+  priorities = _.compact(_.concat([], priorities));
 
-      done(error);
-    }
+  if (_.isEmpty(priorities)) {
+    // save default priorities
+    return savePriorities(defaultPriorities, done);
+  }
 
-    done(null, results);
-  });
+  // save provided priorities
+  savePriorities(priorities, done);
 };
