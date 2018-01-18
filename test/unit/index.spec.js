@@ -13,7 +13,7 @@ describe('Index', () => {
     expect(index).to.be.a('function');
   });
 
-  it('should retun an object when called', () => {
+  it('should return an object when called', () => {
     const library = index();
     expect(library).to.be.an('object');
   });
