@@ -1,33 +1,45 @@
 'use strict';
 
 /**
- * @module majifix priority
+ * @module majifix-priority
+ * @name majifix-priority
  * @version 0.1.0
- * @description majifix priority library
+ * @description A representation of majifix service request priority
  * @author Benson Maruchu <benmaruchu@gmail.com>
  * @public
+ * @version 0.1.0
+ * @example
+ *
+ * const priority = require('majifix-priority');
+ *
+ * ...
+ *
+ * priority.app.start();
  */
 
+/* Dependencies */
 const path = require('path');
-let mongoose = require('mongoose');
-const _ = require('lodash');
-const Model = require(path.join(__dirname, 'models', 'priority'));
-const priorityRouter = require(path.join(__dirname, 'http', 'router'));
-const seed = require(path.join(__dirname, 'utils', 'seed'));
+const app = require('@lykmapipo/express-common');
 
-module.exports = function (options) {
+/* Import Model */
+const Priority = require(path.join(__dirname, 'lib', 'priority.model'));
 
-  options = _.merge({}, options);
+/* Import Routers */
+const router = require(path.join(__dirname, 'lib', 'http.router'));
 
-  mongoose = _.get(options, 'mongoose', mongoose);
+/* export priority model */
+exports.model = Priority;
+exports.Priority = Priority;
 
-  const routerOptions = _.get(options, 'router', {});
+/* export priority router */
+exports.router = router;
 
-  const Router = priorityRouter(routerOptions);
+/* export app */
+Object.defineProperty(exports, 'app', {
+  get() {
 
-  return {
-    model: Model,
-    router: Router,
-    seed: seed
-  };
-};
+    /* bind priority router */
+    app.mount(router);
+    return app;
+  }
+});
