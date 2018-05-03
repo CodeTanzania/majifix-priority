@@ -1,0 +1,16 @@
+{
+  "name": "majifix-priority",
+  "description": "A representation of Service Request Priority for majifix",
+  "repository": "https://github.com/CodeTanzania/majifix-priority.git",
+  "keywords": [
+    "majifix",
+    "codetanzania",
+    "open311",
+    "311",
+    "tanzania",
+    "priority"
+  ],
+  "addons": [
+    "mongolab"
+  ]
+}
