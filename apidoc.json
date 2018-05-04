@@ -1,0 +1,12 @@
+{
+  "name": "majifix-priority",
+  "version": "1.0.0",
+  "description": "A representation of Service Request Priority for majifix",
+  "title": "MajiFix Priority",
+  "url": "https://majifix-priority.herokuapp.com/v1.0.0",
+  "sampleUrl": "https://majifix-priority.herokuapp.com/v1.0.0",
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  }
+}
