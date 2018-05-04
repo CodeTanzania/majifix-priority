@@ -1,33 +1,53 @@
 'use strict';
 
 /**
- * @module majifix priority
+ * @module majifix-priority
+ * @name majifix-priority
  * @version 0.1.0
- * @description majifix priority library
+ * @description A representation an entity which provides a way 
+ * to prioritize service and service request(issues) 
+ * in order of their importance.
+ * 
  * @author Benson Maruchu <benmaruchu@gmail.com>
  * @public
+ * @version 0.1.0
+ * @example
+ *
+ * const { app } = require('majifix-priority');
+ *
+ * ...
+ *
+ * app.start();
  */
 
+
+/* dependencies */
 const path = require('path');
-let mongoose = require('mongoose');
-const _ = require('lodash');
-const Model = require(path.join(__dirname, 'models', 'priority'));
-const priorityRouter = require(path.join(__dirname, 'http', 'router'));
-const seed = require(path.join(__dirname, 'utils', 'seed'));
+const app = require('@lykmapipo/express-common');
 
-module.exports = function (options) {
 
-  options = _.merge({}, options);
+/* import Model */
+const Priority = require(path.join(__dirname, 'lib', 'priority.model'));
 
-  mongoose = _.get(options, 'mongoose', mongoose);
 
-  const routerOptions = _.get(options, 'router', {});
+/* import Routers */
+const router = require(path.join(__dirname, 'lib', 'http.router'));
 
-  const Router = priorityRouter(routerOptions);
 
-  return {
-    model: Model,
-    router: Router,
-    seed: seed
-  };
-};
+/* export priority model */
+exports.Priority = Priority;
+
+
+/* export priority router */
+exports.router = router;
+
+
+/* export app */
+Object.defineProperty(exports, 'app', {
+  get() {
+
+    /* bind priority router */
+    app.mount(router);
+    return app;
+  }
+});
