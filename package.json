@@ -63,9 +63,5 @@
     "mongoose-locale-schema": "^0.1.0",
     "mongoose-rest-actions": "^0.7.1",
     "randomcolor": "^0.5.3"
-  },
-  "engines": {
-    "node": ">=9.9.0",
-    "npm": ">=5.6.0"
   }
 }
