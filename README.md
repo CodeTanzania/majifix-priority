@@ -5,7 +5,7 @@ majifix-priority
 [![Dependencies Status](https://david-dm.org/CodeTanzania/majifix-priority/status.svg?style=flat-square)](https://david-dm.org/CodeTanzania/majifix-priority)
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/CodeTanzania/majifix-priority/tree/develop)
 
-A representation of a service request priority(https://github.com/CodeTanzania/majifix-priority).
+A representation of an entity which provides a way to set priority on service requests(issues).(https://github.com/CodeTanzania/majifix-priority).
 
 It's a simplified version obtained after merging:
 - [https://www.popoloproject.com/specs/organization.html](https://www.popoloproject.com/specs/organization.html)
