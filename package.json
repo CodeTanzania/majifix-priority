@@ -61,7 +61,7 @@
     "moment": "^2.22.1",
     "mongoose": "^5.0.17",
     "mongoose-locale-schema": "^0.1.0",
-    "mongoose-rest-actions": "^0.7.1",
+    "mongoose-rest-actions": "^0.7.4",
     "randomcolor": "^0.5.3"
   }
 }
