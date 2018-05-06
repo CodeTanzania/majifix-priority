@@ -42,6 +42,7 @@
     "chai": "^4.1.2",
     "faker": "git+https://github.com/Marak/faker.js.git",
     "grunt": "^1.0.2",
+    "grunt-apidoc": "^0.11.0",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.1",
     "grunt-mocha-test": "^0.13.3",
