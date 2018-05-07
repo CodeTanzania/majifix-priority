@@ -6,7 +6,9 @@ process.env.DEFAULT_LOCALE = 'en';
 
 // setup mongoose
 const mongoose = require('mongoose');
+require('majifix-jurisdiction').Jurisdiction; // jurisdiction external dependency
 mongoose.Promise = global.Promise;
+
 
 // setup
 require('chai').use(require('sinon-chai'));
