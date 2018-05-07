@@ -95,7 +95,7 @@ describe('Priority', function () {
           expect(found._id).to.exist;
           expect(found._id).to.be.equal(priority._id.toString());
           expect(found.color).to.be.equal(priority.color.toUpperCase());
-          expect(found.name).to.be.equal(priority.name);
+          expect(found.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
 
@@ -122,7 +122,7 @@ describe('Priority', function () {
           expect(patched._id).to.exist;
           expect(patched._id).to.be.equal(priority._id.toString());
           expect(patched.color).to.be.equal(priority.color.toUpperCase());
-          expect(patched.name).to.be.equal(priority.name);
+          expect(patched.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
 
@@ -144,12 +144,12 @@ describe('Priority', function () {
           expect(error).to.not.exist;
           expect(response).to.exist;
 
-          const puted = response.body;
+          const updated = response.body;
 
-          expect(puted._id).to.exist;
-          expect(puted._id).to.be.equal(priority._id.toString());
-          expect(puted.color).to.be.equal(priority.color.toUpperCase());
-          expect(puted.name).to.be.equal(priority.name);
+          expect(updated._id).to.exist;
+          expect(updated._id).to.be.equal(priority._id.toString());
+          expect(updated.color).to.be.equal(priority.color.toUpperCase());
+          expect(updated.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
 
@@ -172,7 +172,7 @@ describe('Priority', function () {
           expect(deleted._id).to.exist;
           expect(deleted._id).to.be.equal(priority._id.toString());
           expect(deleted.color).to.be.equal(priority.color.toUpperCase());
-          expect(deleted.name).to.be.equal(priority.name);
+          expect(deleted.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
 

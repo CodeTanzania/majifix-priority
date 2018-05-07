@@ -2,6 +2,7 @@
 
 // set environment to be test
 process.env.NODE_ENV = 'test';
+process.env.DEFAULT_LOCALE = 'en';
 
 // setup mongoose
 const mongoose = require('mongoose');

@@ -33,7 +33,7 @@ describe('Priority', function () {
           expect(error).to.not.exist;
           expect(created).to.exist;
           expect(created._id).to.eql(priority._id);
-          expect(created.name).to.eql(priority.name);
+          expect(created.name.en).to.eql(priority.name.en);
           expect(created.color).to.eql(priority.color.toUpperCase());
           done(error, created);
         });

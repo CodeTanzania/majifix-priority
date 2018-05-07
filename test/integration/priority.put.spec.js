@@ -42,7 +42,7 @@ describe('Priority', function () {
         expect(error).to.not.exist;
         expect(updated).to.exist;
         expect(updated._id).to.eql(priority._id);
-        expect(updated.name).to.eql(priority.name);
+        expect(updated.name.en).to.eql(priority.name.en);
         done(error, updated);
       });
     });
@@ -79,7 +79,7 @@ describe('Priority', function () {
         expect(error).not.to.exist;
         expect(updated).to.exist;
         expect(updated._id).to.eql(priority._id);
-        expect(updated.name).to.eql(priority.name);
+        expect(updated.name.en).to.eql(priority.name.en);
         done(error, updated);
       });
     });

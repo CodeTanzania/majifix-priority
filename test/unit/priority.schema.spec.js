@@ -1,3 +1,4 @@
+
 'use strict';
 
 /* dependencies */
@@ -28,20 +29,37 @@ describe('Priority', function () {
       expect(jurisdiction.autopopulate).to.be.true;
     });
 
-    it('should have name field', function () {
+    describe('name', function () {
 
-      const name = Priority.schema.tree.name;
-      const instance = Priority.schema.paths.name.instance;
+      it('should be an embedded sub-document', function () {
+        const name = Priority.schema.tree.name;
+        const instance = Priority.schema.paths.name.instance;
+        const tree = Priority.schema.tree.name.tree;
 
-      expect(instance).to.be.equal('String');
-      expect(name).to.exist;
-      expect(name).to.be.an('object');
-      expect(name.type).to.be.a('function');
-      expect(name.type.name).to.be.equal('String');
-      expect(name.index).to.be.true;
-      expect(name.trim).to.be.true;
-      expect(name.searchable).to.be.true;
+        expect(instance).to.be.equal('Embedded');
+        expect(name).to.exist;
+        expect(name).to.be.an('object');
+        expect(tree).to.exist;
+        expect(tree.en).to.exist;
+      });
+
+      it('should have type `en` locale field', function () {
+        const instance = Priority.schema.paths.name.schema.paths.en.instance;
+        const en = Priority.schema.tree.name.tree.en;
+
+        expect(instance).to.be.equal('String');
+        expect(en).to.exist;
+        expect(en).to.be.an('object');
+        expect(en.type).to.be.a('function');
+        expect(en.type.name).to.be.equal('String');
+        expect(en.required).to.be.true;
+        expect(en.trim).to.be.true;
+        expect(en.index).to.be.true;
+        expect(en.searchable).to.be.true;
+
+      });
     });
+
 
     it('should have weight field', function () {
 

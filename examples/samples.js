@@ -6,7 +6,10 @@ const faker = require('faker');
 
 function sample(n) {
   return {
-    name: faker.commerce.productName(),
+    name: {
+      en: faker.commerce.productName(),
+      sw: faker.commerce.productName()
+    },
     weight: ((n % 5) * 5)
   };
 }

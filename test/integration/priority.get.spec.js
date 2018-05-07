@@ -37,10 +37,10 @@ describe('Priority', function () {
 
 
       async
-      .parallel(fakes, function (error, created) {
-        priorities = created;
-        done(error, created);
-      });
+        .parallel(fakes, function (error, created) {
+          priorities = created;
+          done(error, created);
+        });
     });
 
     it('should be able to get without options', function (done) {
@@ -104,7 +104,7 @@ describe('Priority', function () {
 
       const options = {
         filter: {
-          q: priorities[0].name
+          q: priorities[0].name.en
         }
       };
       Priority
@@ -135,7 +135,7 @@ describe('Priority', function () {
     it('should parse filter options', function (done) {
       const options = {
         filter: {
-          name: priorities[0].name
+          'name.en': priorities[0].name.en
         }
       };
       Priority
