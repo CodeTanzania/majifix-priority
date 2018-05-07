@@ -47,7 +47,7 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.1.1",
-    "sinon": "^5.0.3",
+    "sinon": "^5.0.6",
     "sinon-chai": "^3.0.0",
     "sinon-mongoose": "^2.1.1",
     "superagent": "^3.8.3",
@@ -58,10 +58,11 @@
     "async": "^2.6.0",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
+    "majifix-jurisdiction": "git+https://github.com/CodeTanzania/majifix-jurisdiction.git#develop",
     "moment": "^2.22.1",
     "mongoose": "^5.0.17",
     "mongoose-locale-schema": "^0.1.0",
-    "mongoose-rest-actions": "^0.7.4",
+    "mongoose-rest-actions": "^0.8.0",
     "randomcolor": "^0.5.3"
   }
 }
