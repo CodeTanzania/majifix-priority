@@ -55,6 +55,7 @@ describe('Priority', function () {
         expect(en.required).to.be.true;
         expect(en.trim).to.be.true;
         expect(en.index).to.be.true;
+        expect(en.required).to.be.true;
         expect(en.searchable).to.be.true;
 
       });
