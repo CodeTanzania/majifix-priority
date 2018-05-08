@@ -7,7 +7,8 @@ const { expect } = require('chai');
 const mongoose = require('mongoose');
 const {
   Priority,
-  app
+  app,
+  info
 } = require(path.join(__dirname, '..', '..'));
 
 
@@ -34,7 +35,7 @@ describe('Priority', function () {
       priority = Priority.fake();
 
       request(app)
-        .post('/v1.0.0/priorities')
+        .post(`/v${info.version}/priorities`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send(priority)
@@ -58,7 +59,7 @@ describe('Priority', function () {
     it('should handle HTTP GET on /priorities', function (done) {
 
       request(app)
-        .get('/v1.0.0/priorities')
+        .get(`/v${info.version}/priorities`)
         .set('Accept', 'application/json')
         .expect(200)
         .expect('Content-Type', /json/)
@@ -84,7 +85,7 @@ describe('Priority', function () {
     it('should handle HTTP GET on /priorities/id:', function (done) {
 
       request(app)
-        .get(`/v1.0.0/priorities/${priority._id}`)
+        .get(`/v${info.version}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (error, response) {
@@ -108,7 +109,7 @@ describe('Priority', function () {
       const patch = priority.fakeOnly('name');
 
       request(app)
-        .patch(`/v1.0.0/priorities/${priority._id}`)
+        .patch(`/v${info.version}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send(patch)
@@ -135,7 +136,7 @@ describe('Priority', function () {
       const put = priority.fakeOnly('name');
 
       request(app)
-        .put(`/v1.0.0/priorities/${priority._id}`)
+        .put(`/v${info.version}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send(put)
@@ -160,7 +161,7 @@ describe('Priority', function () {
     it('should handle HTTP DELETE on /priorities/:id', function (done) {
 
       request(app)
-        .delete(`/v1.0.0/priorities/${priority._id}`)
+        .delete(`/v${info.version}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (error, response) {
@@ -177,11 +178,6 @@ describe('Priority', function () {
           done(error, response);
 
         });
-
     });
-
-
-
   });
-
 });

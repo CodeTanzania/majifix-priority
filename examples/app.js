@@ -10,7 +10,8 @@ const async = require('async');
 const mongoose = require('mongoose');
 const {
   Priority,
-  app
+  app,
+  info
 } = require(path.join(__dirname, '..', 'index'));
 
 const samples = require('./samples')(20);
@@ -33,9 +34,15 @@ function boot() {
 
   ], function (error, results) {
 
-    // fire the app
+    /* expose module info */
+    app.get('/', function (request, response) {
+      response.status(200);
+      response.json(info);
+    });
+
+    /* fire the app */
     app.start(function (error, env) {
-      console.log(`visit http://0.0.0.0:${env.PORT}/v1.0.0/priorities`);
+      console.log(`visit http://0.0.0.0:${env.PORT}/v${info.version}/priorities`);
     });
   });
 }
