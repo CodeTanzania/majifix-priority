@@ -12,6 +12,7 @@ const {
   Priority,
   app
 } = require(path.join(__dirname, '..', 'index'));
+
 const samples = require('./samples')(20);
 
 mongoose.connect(process.env.MONGODB_URI);
