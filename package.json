@@ -48,7 +48,7 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.1.1",
-    "sinon": "^5.0.6",
+    "sinon": "^5.0.7",
     "nodemon": "^1.17.4",
     "sinon-chai": "^3.0.0",
     "sinon-mongoose": "^2.1.1",
@@ -64,7 +64,7 @@
     "moment": "^2.22.1",
     "mongoose": "^5.0.17",
     "mongoose-locale-schema": "^0.1.0",
-    "mongoose-rest-actions": "^0.8.0",
+    "mongoose-rest-actions": "^0.8.2",
     "randomcolor": "^0.5.3"
   }
 }
