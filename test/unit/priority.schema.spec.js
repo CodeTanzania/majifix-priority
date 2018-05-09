@@ -28,7 +28,7 @@ describe('Priority', function () {
       expect(jurisdiction.index).to.be.true;
       expect(jurisdiction.exists).to.be.true;
       expect(jurisdiction.autoset).to.be.true;
-      expect(jurisdiction.autopopulate).to.be.exist;
+      expect(jurisdiction.autopopulate).to.exist;
     });
 
     describe('name', function () {
@@ -58,6 +58,7 @@ describe('Priority', function () {
         expect(en.required).to.be.true;
         expect(en.trim).to.be.true;
         expect(en.index).to.be.true;
+        expect(en.required).to.be.true;
         expect(en.searchable).to.be.true;
 
       });

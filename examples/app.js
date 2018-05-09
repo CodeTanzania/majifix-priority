@@ -19,7 +19,6 @@ const {
 } = require(path.join(__dirname, '..', 'index'));
 let samples = require('./samples')(20);
 
-
 /* connect to mongoose */
 mongoose.connect(process.env.MONGODB_URI);
 

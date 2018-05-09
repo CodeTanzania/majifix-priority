@@ -169,7 +169,6 @@ describe('Priority', function () {
           done(error, response);
 
         });
-
     });
 
   });

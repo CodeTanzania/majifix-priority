@@ -3,10 +3,10 @@
 /**
  * @name majifix-priority
  * @version 0.1.0
- * @description A representation an entity which provides a way 
- * to prioritize service and service request(issues) 
+ * @description A representation an entity which provides a way
+ * to prioritize service and service request(issues)
  * in order of their importance.
- * 
+ *
  * @author Benson Maruchu <benmaruchu@gmail.com>
  * @author lally elias <lallyelias87@mail.com>
  * @since  0.1.0
@@ -46,7 +46,6 @@ const info = _.merge({}, _.pick(pkg, fields));
 /* ensure api version */
 process.env.API_VERSION = (process.env.API_VERSION || info.version);
 
-
 /* import Model */
 const Priority =
   require(path.join(__dirname, 'lib', 'priority.model'));
@@ -60,6 +59,9 @@ const router =
 /* export package(module) info */
 exports.info = info;
 
+
+/* export package(module) info */
+exports.info = info;
 
 /* export priority model */
 exports.Priority = Priority;

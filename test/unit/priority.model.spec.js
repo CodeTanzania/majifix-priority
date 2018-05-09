@@ -6,7 +6,7 @@ const path = require('path');
 const { expect } = require('chai');
 
 
-/* declarations */
+/* declaration */
 const Priority =
   require(path.join(__dirname, '..', '..', 'lib', 'priority.model'));
 
@@ -29,6 +29,5 @@ describe('Priority', function () {
     });
 
   });
-
 
 });
