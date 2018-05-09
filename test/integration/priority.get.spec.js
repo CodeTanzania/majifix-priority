@@ -5,22 +5,26 @@ const path = require('path');
 const _ = require('lodash');
 const async = require('async');
 const { expect } = require('chai');
-const mongoose = require('mongoose');
-const {
-  Priority
-} = require(path.join(__dirname, '..', '..'));
+const { Jurisdiction } = require('majifix-jurisdiction');
+const { Priority } = require(path.join(__dirname, '..', '..'));
 
 describe('Priority', function () {
 
+  let jurisdiction;
+
   before(function (done) {
-    mongoose.connect('mongodb://localhost/majifix-priority', done);
+    Jurisdiction.remove(done);
   });
 
   before(function (done) {
-    Priority.remove(done);
+    jurisdiction = Jurisdiction.fake();
+    jurisdiction.post(function (error, created) {
+      jurisdiction = created;
+      done(error, created);
+    });
   });
 
-  after(function (done) {
+  before(function (done) {
     Priority.remove(done);
   });
 
@@ -29,18 +33,19 @@ describe('Priority', function () {
     let priorities;
 
     before(function (done) {
-      const fakes = _.map(Priority.fake(32), function (priority) {
-        return function (next) {
-          priority.post(next);
-        };
-      });
-
+      const fakes =
+        _.map(Priority.fake(32), function (priority) {
+          return function (next) {
+            priority.jurisdiction = jurisdiction;
+            priority.post(next);
+          };
+        });
 
       async
-        .parallel(fakes, function (error, created) {
-          priorities = created;
-          done(error, created);
-        });
+      .parallel(fakes, function (error, created) {
+        priorities = created;
+        done(error, created);
+      });
     });
 
     it('should be able to get without options', function (done) {
@@ -162,6 +167,14 @@ describe('Priority', function () {
 
     });
 
+  });
+
+  after(function (done) {
+    Priority.remove(done);
+  });
+
+  after(function (done) {
+    Jurisdiction.remove(done);
   });
 
 });

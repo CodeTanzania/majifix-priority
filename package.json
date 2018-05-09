@@ -20,7 +20,7 @@
     "tanzania",
     "priority"
   ],
-  "authors": [
+  "contributors": [
     {
       "name": "lykmapipo",
       "email": "lallyelias87@gmail.com",
@@ -34,9 +34,13 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CodeTanzania/majifix-status/issues"
+    "url": "https://github.com/CodeTanzania/majifix-priority/issues",
+    "email": "lallyelias87@gmail.com"
   },
-  "homepage": "https://github.com/CodeTanzania/majifix-status",
+  "homepage": "https://github.com/CodeTanzania/majifix-priority",
+  "sandbox": {
+    "url": "https://majifix-priority.herokuapp.com/v0.1.0/statuses"
+  },
   "devDependencies": {
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
@@ -48,8 +52,8 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.1.1",
-    "sinon": "^5.0.6",
     "nodemon": "^1.17.4",
+    "sinon": "^5.0.7",
     "sinon-chai": "^3.0.0",
     "sinon-mongoose": "^2.1.1",
     "superagent": "^3.8.3",
@@ -62,9 +66,9 @@
     "lodash": "^4.17.10",
     "majifix-jurisdiction": "git+https://github.com/CodeTanzania/majifix-jurisdiction.git#develop",
     "moment": "^2.22.1",
-    "mongoose": "^5.0.17",
+    "mongoose": "^5.0.18",
     "mongoose-locale-schema": "^0.1.0",
-    "mongoose-rest-actions": "^0.8.0",
+    "mongoose-rest-actions": "^0.9.1",
     "randomcolor": "^0.5.3"
   }
 }

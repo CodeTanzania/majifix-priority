@@ -1,13 +1,15 @@
-
 'use strict';
+
 
 /* dependencies */
 const path = require('path');
 const { expect } = require('chai');
 
+
 /* declarations */
 const Priority =
   require(path.join(__dirname, '..', '..', 'lib', 'priority.model'));
+
 
 describe('Priority', function () {
 
@@ -26,7 +28,7 @@ describe('Priority', function () {
       expect(jurisdiction.index).to.be.true;
       expect(jurisdiction.exists).to.be.true;
       expect(jurisdiction.autoset).to.be.true;
-      expect(jurisdiction.autopopulate).to.be.true;
+      expect(jurisdiction.autopopulate).to.be.exist;
     });
 
     describe('name', function () {
@@ -44,7 +46,8 @@ describe('Priority', function () {
       });
 
       it('should have type `en` locale field', function () {
-        const instance = Priority.schema.paths.name.schema.paths.en.instance;
+        const instance =
+          Priority.schema.paths.name.schema.paths.en.instance;
         const en = Priority.schema.tree.name.tree.en;
 
         expect(instance).to.be.equal('String');
@@ -91,4 +94,5 @@ describe('Priority', function () {
     });
 
   });
+
 });

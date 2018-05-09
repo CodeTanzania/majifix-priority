@@ -3,22 +3,26 @@
 /* dependencies */
 const path = require('path');
 const { expect } = require('chai');
-const mongoose = require('mongoose');
-const {
-  Priority
-} = require(path.join(__dirname, '..', '..'));
+const { Jurisdiction } = require('majifix-jurisdiction');
+const { Priority } = require(path.join(__dirname, '..', '..'));
 
 describe('Priority', function () {
 
+  let jurisdiction;
+
   before(function (done) {
-    mongoose.connect('mongodb://localhost/majifix-priority', done);
+    Jurisdiction.remove(done);
   });
 
   before(function (done) {
-    Priority.remove(done);
+    jurisdiction = Jurisdiction.fake();
+    jurisdiction.post(function (error, created) {
+      jurisdiction = created;
+      done(error, created);
+    });
   });
 
-  after(function (done) {
+  before(function (done) {
     Priority.remove(done);
   });
 
@@ -26,25 +30,33 @@ describe('Priority', function () {
     let priority;
 
     before(function (done) {
-      const fake = Priority.fake();
-
-      fake.post(function (error, created) {
-        priority = created;
-        done(error, created);
-      });
+      priority = Priority.fake();
+      priority.jurisdiction = jurisdiction;
+      priority
+        .post(function (error, created) {
+          priority = created;
+          done(error, created);
+        });
     });
 
     it('should be able to patch', function (done) {
       priority = priority.fakeOnly('name');
 
-      Priority.patch(priority._id, priority, function (error,
-        updated) {
-        expect(error).to.not.exist;
-        expect(updated).to.exist;
-        expect(updated._id).to.eql(priority._id);
-        expect(updated.name.en).to.eql(priority.name.en);
-        done(error, updated);
-      });
+      Priority
+        .patch(priority._id, priority, function (error, updated) {
+          expect(error).to.not.exist;
+          expect(updated).to.exist;
+          expect(updated._id).to.eql(priority._id);
+          expect(updated.name.en).to.eql(priority.name.en);
+
+          //assert jurisdiction
+          expect(updated.jurisdiction).to.exist;
+          expect(updated.jurisdiction.code)
+            .to.eql(priority.jurisdiction.code);
+          expect(updated.jurisdiction.name)
+            .to.eql(priority.jurisdiction.name);
+          done(error, updated);
+        });
     });
 
     it('should throw error if not exists', function (done) {
@@ -64,12 +76,12 @@ describe('Priority', function () {
     let priority;
 
     before(function (done) {
-      const fake = Priority.fake();
-
-      fake.post(function (error, created) {
-        priority = created;
-        done(error, created);
-      });
+      priority = Priority.fake();
+      priority
+        .post(function (error, created) {
+          priority = created;
+          done(error, created);
+        });
     });
 
     it('should be able to patch', function (done) {
@@ -96,4 +108,13 @@ describe('Priority', function () {
       });
     });
   });
+
+  after(function (done) {
+    Priority.remove(done);
+  });
+
+  after(function (done) {
+    Jurisdiction.remove(done);
+  });
+
 });

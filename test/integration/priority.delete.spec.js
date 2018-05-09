@@ -3,23 +3,23 @@
 /* dependencies */
 const path = require('path');
 const { expect } = require('chai');
-const mongoose = require('mongoose');
-const {
-  Priority
-} = require(path.join(__dirname, '..', '..'));
+const { Jurisdiction } = require('majifix-jurisdiction');
+const { Priority } = require(path.join(__dirname, '..', '..'));
 
 describe('Priority', function () {
 
+  let jurisdiction;
+
   before(function (done) {
-    mongoose.connect('mongodb://localhost/majifix-priority', done);
+    Jurisdiction.remove(done);
   });
 
   before(function (done) {
-    Priority.remove(done);
-  });
-
-  after(function (done) {
-    Priority.remove(done);
+    jurisdiction = Jurisdiction.fake();
+    jurisdiction.post(function (error, created) {
+      jurisdiction = created;
+      done(error, created);
+    });
   });
 
   describe('static delete', function () {
@@ -27,12 +27,13 @@ describe('Priority', function () {
     let priority;
 
     before(function (done) {
-      const fake = Priority.fake();
-
-      fake.post(function (error, created) {
-        priority = created;
-        done(error, created);
-      });
+      priority = Priority.fake();
+      priority.jurisdiction = jurisdiction;
+      priority
+        .post(function (error, created) {
+          priority = created;
+          done(error, created);
+        });
     });
 
     it('should be able to delete', function (done) {
@@ -64,8 +65,8 @@ describe('Priority', function () {
     let priority;
 
     before(function (done) {
-      const fake = Priority.fake();
-      fake
+      priority = Priority.fake();
+      priority
         .post(function (error, created) {
           priority = created;
           done(error, created);
@@ -93,4 +94,13 @@ describe('Priority', function () {
     });
 
   });
+
+  after(function (done) {
+    Priority.remove(done);
+  });
+
+  after(function (done) {
+    Jurisdiction.remove(done);
+  });
+
 });
