@@ -20,7 +20,8 @@
     "tanzania",
     "priority"
   ],
-  "contributors": [{
+  "contributors": [
+    {
       "name": "lykmapipo",
       "email": "lallyelias87@gmail.com",
       "url": "https://github.com/lykmapipo"
@@ -53,7 +54,6 @@
     "mocha": "^5.1.1",
     "sinon": "^5.0.7",
     "nodemon": "^1.17.4",
-    "sinon": "^5.0.7",
     "sinon-chai": "^3.0.0",
     "sinon-mongoose": "^2.1.1",
     "superagent": "^3.8.3",
