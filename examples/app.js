@@ -47,7 +47,6 @@ function boot() {
         }
         return sample;
       });
-      /* fake priorities */
       Priority.create(samples, next);
     }
 
