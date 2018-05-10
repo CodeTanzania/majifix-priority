@@ -28,6 +28,11 @@ describe('Priority', function () {
         });
     });
 
+    it('should expose default locale `en` when not set', function () {
+      expect(Priority.DEFAULT_LOCALE).to.exist;
+      expect(Priority.DEFAULT_LOCALE).to.equal('en');
+    });
+
   });
 
 });
