@@ -60,9 +60,6 @@ const router =
 exports.info = info;
 
 
-/* export package(module) info */
-exports.info = info;
-
 /* export priority model */
 exports.Priority = Priority;
 
