@@ -11,6 +11,7 @@ const path = require('path');
 const _ = require('lodash');
 const async = require('async');
 const mongoose = require('mongoose');
+// mongoose.set('debug', true);
 const { Jurisdiction } = require('majifix-jurisdiction');
 const {
   Priority,
@@ -26,27 +27,33 @@ mongoose.connect(process.env.MONGODB_URI);
 function boot() {
 
   async.waterfall([
+
     function clear(next) {
       Priority.remove(function () {
         next();
       });
     },
 
+    function clear(next) {
+      Jurisdiction.remove(function () {
+        next();
+      });
+    },
+
     function seedJurisdiction(next) {
       const jurisdiction = Jurisdiction.fake();
-      Jurisdiction.remove(function ( /*error, results*/ ) {
-        jurisdiction.post(next);
-      });
+      jurisdiction.post(next);
     },
 
     function seed(jurisdiction, next) {
       /* fake priorities */
-      samples = _.map(samples, function (sample) {
-        if ((sample.weight % 2 === 0)) {
-          sample.jurisdiction = jurisdiction;
-        }
-        return sample;
-      });
+      samples =
+        _.map(samples, function (sample) {
+          if ((sample.weight % 2 === 0)) {
+            sample.jurisdiction = jurisdiction;
+          }
+          return sample;
+        });
       Priority.create(samples, next);
     }
 

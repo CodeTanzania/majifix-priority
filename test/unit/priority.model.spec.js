@@ -24,7 +24,8 @@ describe('Priority', function () {
       expect(Priority.OPTION_AUTOPOPULATE).to.exist;
       expect(Priority.OPTION_AUTOPOPULATE)
         .to.be.eql({
-          select: { name: 1, color: 1 }
+          select: { name: 1, color: 1 },
+          maxDepth: 1
         });
     });
 
