@@ -66,9 +66,9 @@
     "lodash": "^4.17.10",
     "majifix-jurisdiction": "git+https://github.com/CodeTanzania/majifix-jurisdiction.git#develop",
     "moment": "^2.22.1",
-    "mongoose": "^5.0.18",
+    "mongoose": "^5.1.0",
     "mongoose-locale-schema": "^0.1.0",
-    "mongoose-rest-actions": "^0.9.2",
+    "mongoose-rest-actions": "^0.10.0",
     "randomcolor": "^0.5.3"
   }
 }
