@@ -11,12 +11,12 @@ module.exports = function (grunt) {
   grunt.initConfig({
     apidoc: {
       api: {
-        src: 'lib/',
+        src: ['node_modules/majifix-common/lib/','lib/'],
         dest: 'docs/',
         options: {
           debug: true,
           includeFilters: ['.*\\.js$'],
-          excludeFilters: ['node_modules/']
+          // excludeFilters: ['node_modules/']
         }
       }
     },
