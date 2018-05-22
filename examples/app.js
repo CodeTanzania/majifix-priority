@@ -68,7 +68,7 @@ function boot() {
     /* fire the app */
     app.start(function (error, env) {
       console.log(
-        `visit http://0.0.0.0:${env.PORT}/v${info.version}/priorities`
+        `visit http://0.0.0.0:${env.PORT}/v${env.API_VERSION}/priorities`
       );
     });
 

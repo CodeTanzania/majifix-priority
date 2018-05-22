@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/CodeTanzania/majifix-priority",
   "sandbox": {
-    "url": "https://majifix-priority.herokuapp.com/v0.1.0/statuses"
+    "url": "https://majifix-priority.herokuapp.com/v0.1.0/priorities"
   },
   "devDependencies": {
     "body-parser": "^1.18.3",
@@ -64,6 +64,7 @@
     "async": "^2.6.0",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
+    "majifix-common": "git+https://github.com/CodeTanzania/majifix-common#develop",
     "majifix-jurisdiction": "git+https://github.com/CodeTanzania/majifix-jurisdiction.git#develop",
     "moment": "^2.22.1",
     "mongoose": "^5.1.1",
