@@ -11,7 +11,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     apidoc: {
       api: {
-        src: ['node_modules/majifix-common/lib/','lib/'],
+        src: ['node_modules/@codetanzania/majifix-common/lib/','lib/'],
         dest: 'docs/',
         options: {
           debug: true,

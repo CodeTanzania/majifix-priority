@@ -4,7 +4,7 @@
 const path = require('path');
 const request = require('supertest');
 const { expect } = require('chai');
-const { env } = require('majifix-common');
+const { env } = require('@codetanzania/majifix-common');
 const { Priority, app } = require(path.join(__dirname, '..', '..'));
 
 
