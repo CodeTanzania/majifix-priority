@@ -22,3 +22,4 @@ spec/intergration.spec.js
 doc.html
 .travis.yml
 Gruntfile.js
+examples
