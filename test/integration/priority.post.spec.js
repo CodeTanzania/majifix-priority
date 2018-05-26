@@ -3,7 +3,7 @@
 /* dependencies */
 const path = require('path');
 const { expect } = require('chai');
-const { Jurisdiction } = require('majifix-jurisdiction');
+const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require(path.join(__dirname, '..', '..'));
 
 describe('Priority', function () {
