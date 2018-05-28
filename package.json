@@ -19,7 +19,8 @@
     "priority",
     "open311"
   ],
-  "contributors": [{
+  "contributors": [
+    {
       "name": "lykmapipo",
       "email": "lallyelias87@gmail.com",
       "url": "https://github.com/lykmapipo"
@@ -50,7 +51,7 @@
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
-    "sinon": "^5.0.7",
+    "sinon": "^5.0.10",
     "sinon-chai": "^3.1.0",
     "sinon-mongoose": "^2.1.1",
     "superagent": "^3.8.3",
