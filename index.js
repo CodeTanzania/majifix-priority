@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
  * @name majifix-priority
  * @version 0.1.0
@@ -8,13 +9,13 @@
  * in order of their importance.
  *
  * @author Benson Maruchu <benmaruchu@gmail.com>
- * @author lally elias <lallyelias87@mail.com>
+ * @author lally elias <lallyelias87@gmail.com>
  * @since  0.1.0
  * @version 0.1.0
  * @license MIT
  * @example
  *
- * const { app } = require('majifix-priority');
+ * const { app } = require('@codetanzania/majifix-priority');
  *
  * ...
  *
@@ -26,6 +27,7 @@
 const path = require('path');
 const _ = require('lodash');
 const app = require('@lykmapipo/express-common');
+
 
 /* declarations */
 const pkg = require(path.join(__dirname, 'package.json'));
@@ -40,6 +42,7 @@ const fields = [
   'sandbox',
   'contributors'
 ];
+
 
 /* extract information from package.json */
 const info = _.merge({}, _.pick(pkg, fields));
