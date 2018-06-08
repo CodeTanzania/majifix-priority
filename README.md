@@ -63,8 +63,6 @@ It will be nice, if you open an issue first so that we can know what is going on
 
 - [Open311 GeoReport v2](http://wiki.open311.org/GeoReport_v2/)
 - [popolo project](https://www.popoloproject.com/)
-- [http://geojson.org/](http://geojson.org/)
-- [https://tools.ietf.org/html/rfc7946](https://tools.ietf.org/html/rfc7946)
 - [https://opengovdata.io/](https://opengovdata.io/)
 
 ## Licence
