@@ -1,0 +1,10 @@
+{
+  "name": "majifix-priority",
+  "title": "Majifix - Priority",
+  "url": "https://majifix-priority.herokuapp.com/v1",
+  "sampleUrl": "https://majifix-priority.herokuapp.com/v1",
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  }
+}

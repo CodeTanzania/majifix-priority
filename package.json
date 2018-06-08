@@ -1,0 +1,77 @@
+{
+  "name": "@codetanzania/majifix-priority",
+  "version": "1.0.0",
+  "description": "A representation an entity which provides a way to prioritize service and service request(issues) in order of their importance.",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test",
+    "integration": "grunt integration",
+    "dev": "BASE_PATH=./examples nodemon ./examples/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CodeTanzania/majifix-priority.git"
+  },
+  "keywords": [
+    "codetanzania",
+    "majifix",
+    "majifix-module",
+    "priority",
+    "open311"
+  ],
+  "contributors": [
+    {
+      "name": "lykmapipo",
+      "email": "lallyelias87@gmail.com",
+      "url": "https://github.com/lykmapipo"
+    },
+    {
+      "name": "benMaruchu",
+      "email": "benmaruchu@gmail.com",
+      "url": "https://github.com/BenMaruchu"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CodeTanzania/majifix-priority/issues",
+    "email": "lallyelias87@gmail.com"
+  },
+  "homepage": "https://github.com/CodeTanzania/majifix-priority",
+  "sandbox": {
+    "url": "https://majifix-priority.herokuapp.com/v1/priorities"
+  },
+  "devDependencies": {
+    "@benmaruchu/faker": "^4.2.1",
+    "chai": "^4.1.2",
+    "grunt": "^1.0.2",
+    "grunt-apidoc": "^0.11.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-mocha-test": "^0.13.3",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
+    "sinon": "^5.0.10",
+    "sinon-chai": "^3.1.0",
+    "sinon-mongoose": "^2.1.1",
+    "superagent": "^3.8.3",
+    "supertest": "^3.1.0"
+  },
+  "dependencies": {
+    "@codetanzania/majifix-common": "^0.3.0",
+    "@codetanzania/majifix-jurisdiction": "^1.0.0",
+    "@lykmapipo/express-common": "^0.6.0",
+    "async": "^2.6.1",
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.1",
+    "mongoose": "^5.1.2",
+    "mongoose-locale-schema": "^0.1.0",
+    "mongoose-rest-actions": "^0.12.1",
+    "randomcolor": "^0.5.3"
+  },
+  "engines": {
+    "node": ">=8.11.1",
+    "npm": ">=5.6.0"
+  }
+}
