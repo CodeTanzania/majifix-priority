@@ -5,6 +5,15 @@
 const mongoose = require('mongoose');
 
 
+function wipe(done) {
+  if (mongoose.connection && mongoose.connection.dropDatabase) {
+    mongoose.connection.dropDatabase(done);
+  } else {
+    done();
+  }
+}
+
+
 //setup database
 before(function (done) {
   mongoose.connect('mongodb://localhost/majifix-priority', done);
@@ -12,8 +21,8 @@ before(function (done) {
 
 
 // clear database
-after(function (done) {
-  if (mongoose.connection && mongoose.connection.dropDatabase) {
-    mongoose.connection.dropDatabase(done);
-  }
-});
+before(wipe);
+
+
+// clear database
+after(wipe);
