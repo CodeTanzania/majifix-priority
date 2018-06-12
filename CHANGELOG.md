@@ -1,3 +1,6 @@
+# v1.1.1 / 2018-06-12
+- Use latest dependencies
+
 # v1.1.0 / 2018-06-09
 
 - Force latest dependencies
