@@ -1,6 +1,6 @@
 {
   "name": "@codetanzania/majifix-priority",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A representation an entity which provides a way to prioritize service and service request(issues) in order of their importance.",
   "main": "index.js",
   "scripts": {
@@ -51,23 +51,23 @@
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
-    "sinon": "^5.1.1",
+    "sinon": "^6.0.0",
     "sinon-chai": "^3.1.0",
     "sinon-mongoose": "^2.1.1",
     "superagent": "^3.8.3",
     "supertest": "^3.1.0"
   },
   "dependencies": {
-    "@codetanzania/majifix-common": "^0.4.0",
-    "@codetanzania/majifix-jurisdiction": "^1.1.0",
+    "@codetanzania/majifix-common": "^0.4.1",
+    "@codetanzania/majifix-jurisdiction": "^1.2.0",
     "@lykmapipo/express-common": "^0.6.0",
     "async": "^2.6.1",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
-    "mongoose": "^5.1.4",
+    "mongoose": "^5.1.5",
     "mongoose-locale-schema": "^0.1.0",
-    "mongoose-rest-actions": "^0.12.1",
+    "mongoose-rest-actions": "^0.13.1",
     "randomcolor": "^0.5.3"
   },
   "engines": {
