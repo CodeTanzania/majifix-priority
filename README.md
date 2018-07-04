@@ -9,6 +9,7 @@ A representation an entity which provides a way to prioritize service and servic
 ## Requirements
 
 - [NodeJS v8.11.1+](https://nodejs.org)
+- [Npm v5.6.0+](https://www.npmjs.com/)
 - [MongoDB v3.4.10+](https://www.mongodb.com/)
 - [Mongoose v5.1.2+](https://github.com/Automattic/mongoose)
 
