@@ -13,7 +13,12 @@ const async = require('async');
 const mongoose = require('mongoose');
 // mongoose.set('debug', true);
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
-const { Priority, info, router, app } = require(path.join(__dirname, '..', 'index'));
+const {
+  Priority,
+  info,
+  apiVersion,
+  app
+} = require(path.join(__dirname, '..', 'index'));
 let samples = require('./samples')(20);
 
 /* connect to mongoose */
@@ -64,7 +69,7 @@ function boot() {
     /* fire the app */
     app.start(function (error, env) {
       console.log(
-        `visit http://0.0.0.0:${env.PORT}/v${router.apiVersion}/priorities`
+        `visit http://0.0.0.0:${env.PORT}/v${apiVersion}/priorities`
       );
     });
 
