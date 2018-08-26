@@ -4,7 +4,11 @@
 const path = require('path');
 const request = require('supertest');
 const { expect } = require('chai');
-const { Priority, router, app } = require(path.join(__dirname, '..', '..'));
+const {
+  Priority,
+  apiVersion,
+  app
+} = require(path.join(__dirname, '..', '..'));
 
 
 describe('Priority', function () {
@@ -22,7 +26,7 @@ describe('Priority', function () {
       priority = Priority.fake();
 
       request(app)
-        .post(`/v${router.apiVersion}/priorities`)
+        .post(`/v${apiVersion}/priorities`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send(priority)
@@ -46,7 +50,7 @@ describe('Priority', function () {
     it('should handle HTTP GET on /priorities', function (done) {
 
       request(app)
-        .get(`/v${router.apiVersion}/priorities`)
+        .get(`/v${apiVersion}/priorities`)
         .set('Accept', 'application/json')
         .expect(200)
         .expect('Content-Type', /json/)
@@ -72,7 +76,7 @@ describe('Priority', function () {
     it('should handle HTTP GET on /priorities/id:', function (done) {
 
       request(app)
-        .get(`/v${router.apiVersion}/priorities/${priority._id}`)
+        .get(`/v${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (error, response) {
@@ -96,7 +100,7 @@ describe('Priority', function () {
       const patch = priority.fakeOnly('name');
 
       request(app)
-        .patch(`/v${router.apiVersion}/priorities/${priority._id}`)
+        .patch(`/v${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send(patch)
@@ -123,7 +127,7 @@ describe('Priority', function () {
       const put = priority.fakeOnly('name');
 
       request(app)
-        .put(`/v${router.apiVersion}/priorities/${priority._id}`)
+        .put(`/v${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send(put)
@@ -148,7 +152,7 @@ describe('Priority', function () {
     it('should handle HTTP DELETE on /priorities/:id', function (done) {
 
       request(app)
-        .delete(`/v${router.apiVersion}/priorities/${priority._id}`)
+        .delete(`/v${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (error, response) {
