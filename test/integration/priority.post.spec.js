@@ -11,7 +11,7 @@ describe('Priority', function () {
   let jurisdiction;
 
   before(function (done) {
-    Jurisdiction.remove(done);
+    Jurisdiction.deleteMany(done);
   });
 
   before(function (done) {
@@ -23,7 +23,7 @@ describe('Priority', function () {
   });
 
   before(function (done) {
-    Priority.remove(done);
+    Priority.deleteMany(done);
   });
 
   describe('static post', function () {
@@ -76,11 +76,11 @@ describe('Priority', function () {
   });
 
   after(function (done) {
-    Priority.remove(done);
+    Priority.deleteMany(done);
   });
 
   after(function (done) {
-    Jurisdiction.remove(done);
+    Jurisdiction.deleteMany(done);
   });
 
 });
