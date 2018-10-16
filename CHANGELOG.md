@@ -1,3 +1,8 @@
+# 1.4.3 / 16-10-2018
+- Force latest dependencies
+- Push dependencies to peerDependencies
+- Improve integration test
+
 # 1.4.1 / 09-09-2018
 - force latest dependencies
 - run security audit fix

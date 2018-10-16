@@ -16,7 +16,7 @@ describe('Priority', function () {
   describe('Rest API', function () {
 
     after(function (done) {
-      Priority.remove(done);
+      Priority.deleteMany(done);
     });
 
     let priority;
