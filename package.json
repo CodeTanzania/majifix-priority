@@ -1,6 +1,6 @@
 {
   "name": "@codetanzania/majifix-priority",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A representation an entity which provides a way to prioritize service and service request(issues) in order of their importance.",
   "main": "index.js",
   "scripts": {
@@ -88,19 +88,11 @@
     }
   },
   "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "extends": ["@commitlint/config-conventional"]
   },
   "lint-staged": {
-    "*.{js}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{md,html}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js}": ["prettier --write", "git add"],
+    "*.{md,html}": ["prettier --write", "git add"]
   },
   "husky": {
     "hooks": {
