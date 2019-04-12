@@ -11,17 +11,17 @@ const {
 } = require(path.join(__dirname, '..', '..'));
 
 
-describe('Priority', function () {
+describe('Priority', () => {
 
-  describe('Rest API', function () {
+  describe('Rest API', () => {
 
-    after(function (done) {
+    after(done => {
       Priority.deleteMany(done);
     });
 
     let priority;
 
-    it('should handle HTTP POST on /priorities', function (done) {
+    it('should handle HTTP POST on /priorities', done => {
 
       priority = Priority.fake();
 
@@ -31,7 +31,7 @@ describe('Priority', function () {
         .set('Content-Type', 'application/json')
         .send(priority)
         .expect(201)
-        .end(function (error, response) {
+        .end((error, response) => {
           expect(error).to.not.exist;
           expect(response).to.exist;
 
@@ -47,14 +47,14 @@ describe('Priority', function () {
 
     });
 
-    it('should handle HTTP GET on /priorities', function (done) {
+    it('should handle HTTP GET on /priorities', done => {
 
       request(app)
         .get(`/${apiVersion}/priorities`)
         .set('Accept', 'application/json')
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function (error, response) {
+        .end((error, response) => {
           expect(error).to.not.exist;
           expect(response).to.exist;
 
@@ -73,13 +73,13 @@ describe('Priority', function () {
 
     });
 
-    it('should handle HTTP GET on /priorities/id:', function (done) {
+    it('should handle HTTP GET on /priorities/id:', done => {
 
       request(app)
         .get(`/${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .expect(200)
-        .end(function (error, response) {
+        .end((error, response) => {
           expect(error).to.not.exist;
           expect(response).to.exist;
 
@@ -95,7 +95,7 @@ describe('Priority', function () {
 
     });
 
-    it('should handle HTTP PATCH on /priorities/id:', function (done) {
+    it('should handle HTTP PATCH on /priorities/id:', done => {
 
       const patch = priority.fakeOnly('name');
 
@@ -105,7 +105,7 @@ describe('Priority', function () {
         .set('Content-Type', 'application/json')
         .send(patch)
         .expect(200)
-        .end(function (error, response) {
+        .end((error, response) => {
           expect(error).to.not.exist;
           expect(response).to.exist;
 
@@ -122,7 +122,7 @@ describe('Priority', function () {
 
     });
 
-    it('should handle HTTP PUT on /priorities/id:', function (done) {
+    it('should handle HTTP PUT on /priorities/id:', done => {
 
       const put = priority.fakeOnly('name');
 
@@ -132,7 +132,7 @@ describe('Priority', function () {
         .set('Content-Type', 'application/json')
         .send(put)
         .expect(200)
-        .end(function (error, response) {
+        .end((error, response) => {
           expect(error).to.not.exist;
           expect(response).to.exist;
 
@@ -149,13 +149,13 @@ describe('Priority', function () {
 
     });
 
-    it('should handle HTTP DELETE on /priorities/:id', function (done) {
+    it('should handle HTTP DELETE on /priorities/:id', done => {
 
       request(app)
         .delete(`/${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
         .expect(200)
-        .end(function (error, response) {
+        .end((error, response) => {
           expect(error).to.not.exist;
           expect(response).to.exist;
 

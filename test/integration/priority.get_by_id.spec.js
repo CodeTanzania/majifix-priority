@@ -7,43 +7,43 @@ const { expect } = require('chai');
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require(path.join(__dirname, '..', '..'));
 
-describe('Priority', function () {
+describe('Priority', () => {
 
   let jurisdiction;
 
-  before(function (done) {
+  before(done => {
     Jurisdiction.deleteMany(done);
   });
 
-  before(function (done) {
+  before(done => {
     jurisdiction = Jurisdiction.fake();
-    jurisdiction.post(function (error, created) {
+    jurisdiction.post((error, created) => {
       jurisdiction = created;
       done(error, created);
     });
   });
 
-  before(function (done) {
+  before(done => {
     Priority.deleteMany(done);
   });
 
-  describe('get by id', function () {
+  describe('get by id', () => {
 
     let priority;
 
-    before(function (done) {
+    before(done => {
       priority = Priority.fake();
       priority.jurisdiction = jurisdiction;
       priority
-        .post(function (error, created) {
+        .post((error, created) => {
           priority = created;
           done(error, created);
         });
     });
 
-    it('should be able to get an instance', function (done) {
+    it('should be able to get an instance', done => {
       Priority
-        .getById(priority._id, function (error, found) {
+        .getById(priority._id, (error, found) => {
           expect(error).to.not.exist;
           expect(found).to.exist;
           expect(found._id).to.eql(priority._id);
@@ -58,7 +58,7 @@ describe('Priority', function () {
         });
     });
 
-    it('should be able to get with options', function (done) {
+    it('should be able to get with options', done => {
 
       const options = {
         _id: priority._id,
@@ -66,7 +66,7 @@ describe('Priority', function () {
       };
 
       Priority
-        .getById(options, function (error, found) {
+        .getById(options, (error, found) => {
           expect(error).to.not.exist;
           expect(found).to.exist;
           expect(found._id).to.eql(priority._id);
@@ -80,7 +80,7 @@ describe('Priority', function () {
             'weight',
             'createdAt',
             'updatedAt'
-          ], function (field) {
+          ],  field => {
             expect(fields).to.not.include(field);
           });
 
@@ -90,11 +90,11 @@ describe('Priority', function () {
 
     });
 
-    it('should throw if not exists', function (done) {
+    it('should throw if not exists', done => {
       const priority = Priority.fake();
 
       Priority
-        .getById(priority._id, function (error, found) {
+        .getById(priority._id, (error, found) => {
           expect(error).to.exist;
           expect(error.status).to.exist;
           expect(error.message).to.be.equal('Not Found');
@@ -105,11 +105,11 @@ describe('Priority', function () {
 
   });
 
-  after(function (done) {
+  after(done => {
     Priority.deleteMany(done);
   });
 
-  after(function (done) {
+  after(done => {
     Jurisdiction.deleteMany(done);
   });
 
