@@ -6,39 +6,39 @@ const { expect } = require('chai');
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require(path.join(__dirname, '..', '..'));
 
-describe('Priority', function () {
+describe('Priority', () => {
 
   let jurisdiction;
 
-  before(function (done) {
+  before(done => {
     Jurisdiction.deleteMany(done);
   });
 
-  before(function (done) {
+  before(done => {
     jurisdiction = Jurisdiction.fake();
-    jurisdiction.post(function (error, created) {
+    jurisdiction.post((error, created) => {
       jurisdiction = created;
       done(error, created);
     });
   });
 
-  describe('static delete', function () {
+  describe('static delete', () => {
 
     let priority;
 
-    before(function (done) {
+    before(done => {
       priority = Priority.fake();
       priority.jurisdiction = jurisdiction;
       priority
-        .post(function (error, created) {
+        .post((error, created) => {
           priority = created;
           done(error, created);
         });
     });
 
-    it('should be able to delete', function (done) {
+    it('should be able to delete', done => {
       Priority
-        .del(priority._id, function (error, deleted) {
+        .del(priority._id, (error, deleted) => {
           expect(error).to.not.exist;
           expect(deleted).to.exist;
           expect(deleted._id).to.eql(priority._id);
@@ -47,9 +47,9 @@ describe('Priority', function () {
     });
 
 
-    it('should throw error if not exists', function (done) {
+    it('should throw error if not exists', done => {
       Priority
-        .del(priority._id, function (error, deleted) {
+        .del(priority._id, (error, deleted) => {
           expect(error).to.exist;
           expect(error.status).to.exist;
           expect(error.message).to.be.equal('Not Found');
@@ -60,22 +60,22 @@ describe('Priority', function () {
   });
 
 
-  describe('instance delete', function () {
+  describe('instance delete', () => {
 
     let priority;
 
-    before(function (done) {
+    before(done => {
       priority = Priority.fake();
       priority
-        .post(function (error, created) {
+        .post((error, created) => {
           priority = created;
           done(error, created);
         });
     });
 
-    it('should be able to delete', function (done) {
+    it('should be able to delete', done => {
       priority
-        .del(function (error, deleted) {
+        .del((error, deleted) => {
           expect(error).to.not.exist;
           expect(deleted).to.exist;
           expect(deleted._id).to.eql(priority._id);
@@ -83,9 +83,9 @@ describe('Priority', function () {
         });
     });
 
-    it('should not throw if not exists', function (done) {
+    it('should not throw if not exists', done => {
       priority
-        .del(function (error, deleted) {
+        .del((error, deleted) => {
           expect(error).to.not.exist;
           expect(deleted).to.exist;
           expect(deleted._id).to.eql(priority._id);
@@ -95,11 +95,11 @@ describe('Priority', function () {
 
   });
 
-  after(function (done) {
+  after(done => {
     Priority.deleteMany(done);
   });
 
-  after(function (done) {
+  after(done => {
     Jurisdiction.deleteMany(done);
   });
 

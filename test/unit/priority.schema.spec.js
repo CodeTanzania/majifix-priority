@@ -11,11 +11,11 @@ const Priority =
   require(path.join(__dirname, '..', '..', 'lib', 'priority.model'));
 
 
-describe('Priority', function () {
+describe('Priority', () => {
 
-  describe('Schema', function () {
+  describe('Schema', () => {
 
-    it('should have jurisdiction field', function () {
+    it('should have jurisdiction field', () => {
 
       const jurisdiction = Priority.schema.tree.jurisdiction;
       const instance = Priority.schema.paths.jurisdiction.instance;
@@ -30,9 +30,9 @@ describe('Priority', function () {
       expect(jurisdiction.autopopulate).to.exist;
     });
 
-    describe('name', function () {
+    describe('name', () => {
 
-      it('should be an embedded sub-document', function () {
+      it('should be an embedded sub-document', () => {
         const name = Priority.schema.tree.name;
         const instance = Priority.schema.paths.name.instance;
         const tree = Priority.schema.tree.name.tree;
@@ -44,7 +44,7 @@ describe('Priority', function () {
         expect(tree.en).to.exist;
       });
 
-      it('should have type `en` locale field', function () {
+      it('should have type `en` locale field', () => {
         const instance =
           Priority.schema.paths.name.schema.paths.en.instance;
         const en = Priority.schema.tree.name.tree.en;
@@ -64,7 +64,7 @@ describe('Priority', function () {
     });
 
 
-    it('should have weight field', function () {
+    it('should have weight field', () => {
 
       const weight = Priority.schema.tree.weight;
       const instance = Priority.schema.paths.weight.instance;
@@ -78,7 +78,7 @@ describe('Priority', function () {
       expect(weight.default).to.equal(0);
     });
 
-    it('should have color field', function () {
+    it('should have color field', () => {
 
       const color = Priority.schema.tree.color;
       const instance = Priority.schema.paths.color.instance;

@@ -6,37 +6,37 @@ const { expect } = require('chai');
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require(path.join(__dirname, '..', '..'));
 
-describe('Priority', function () {
+describe('Priority', () => {
 
   let jurisdiction;
 
-  before(function (done) {
+  before(done => {
     Jurisdiction.deleteMany(done);
   });
 
-  before(function (done) {
+  before(done => {
     jurisdiction = Jurisdiction.fake();
-    jurisdiction.post(function (error, created) {
+    jurisdiction.post((error, created) => {
       jurisdiction = created;
       done(error, created);
     });
   });
 
-  before(function (done) {
+  before(done => {
     Priority.deleteMany(done);
   });
 
-  describe('static post', function () {
+  describe('static post', () => {
 
     let priority;
 
-    it('should be able to post', function (done) {
+    it('should be able to post', done => {
 
       priority = Priority.fake();
       priority.jurisdiction = jurisdiction;
 
       Priority
-        .post(priority, function (error, created) {
+        .post(priority, (error, created) => {
           expect(error).to.not.exist;
           expect(created).to.exist;
           expect(created._id).to.eql(priority._id);
@@ -55,15 +55,15 @@ describe('Priority', function () {
 
   });
 
-  describe('instance post', function () {
+  describe('instance post', () => {
 
     let priority;
 
-    it('should be able to post', function (done) {
+    it('should be able to post', done => {
       priority = Priority.fake();
 
       priority
-        .post(function (error, created) {
+        .post((error, created) => {
           expect(error).to.not.exist;
           expect(created).to.exist;
           expect(created._id).to.eql(priority._id);
@@ -75,11 +75,11 @@ describe('Priority', function () {
 
   });
 
-  after(function (done) {
+  after(done => {
     Priority.deleteMany(done);
   });
 
-  after(function (done) {
+  after(done => {
     Jurisdiction.deleteMany(done);
   });
 

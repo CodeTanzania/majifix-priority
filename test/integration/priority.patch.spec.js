@@ -6,44 +6,44 @@ const { expect } = require('chai');
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require(path.join(__dirname, '..', '..'));
 
-describe('Priority', function () {
+describe('Priority', () => {
 
   let jurisdiction;
 
-  before(function (done) {
+  before(done => {
     Jurisdiction.deleteMany(done);
   });
 
-  before(function (done) {
+  before(done => {
     jurisdiction = Jurisdiction.fake();
-    jurisdiction.post(function (error, created) {
+    jurisdiction.post((error, created) => {
       jurisdiction = created;
       done(error, created);
     });
   });
 
-  before(function (done) {
+  before(done => {
     Priority.deleteMany(done);
   });
 
-  describe('static patch', function () {
+  describe('static patch', () => {
     let priority;
 
-    before(function (done) {
+    before(done => {
       priority = Priority.fake();
       priority.jurisdiction = jurisdiction;
       priority
-        .post(function (error, created) {
+        .post((error, created) => {
           priority = created;
           done(error, created);
         });
     });
 
-    it('should be able to patch', function (done) {
+    it('should be able to patch', done => {
       priority = priority.fakeOnly('name');
 
       Priority
-        .patch(priority._id, priority, function (error, updated) {
+        .patch(priority._id, priority, (error, updated) => {
           expect(error).to.not.exist;
           expect(updated).to.exist;
           expect(updated._id).to.eql(priority._id);
@@ -59,10 +59,10 @@ describe('Priority', function () {
         });
     });
 
-    it('should throw error if not exists', function (done) {
+    it('should throw error if not exists', done => {
       const fake = Priority.fake();
 
-      Priority.patch(fake._id, fake, function (error, updated) {
+      Priority.patch(fake._id, fake, (error, updated) => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.message).to.be.equal('Not Found');
@@ -72,22 +72,22 @@ describe('Priority', function () {
     });
   });
 
-  describe('instance patch', function () {
+  describe('instance patch', () => {
     let priority;
 
-    before(function (done) {
+    before(done => {
       priority = Priority.fake();
       priority
-        .post(function (error, created) {
+        .post((error, created) => {
           priority = created;
           done(error, created);
         });
     });
 
-    it('should be able to patch', function (done) {
+    it('should be able to patch', done => {
       priority = priority.fakeOnly('name');
 
-      priority.patch(function (error, updated) {
+      priority.patch((error, updated) => {
         expect(error).not.to.exist;
         expect(updated).to.exist;
         expect(updated._id).to.eql(priority._id);
@@ -96,11 +96,11 @@ describe('Priority', function () {
       });
     });
 
-    it('should not throw error if not exists', function (done) {
+    it('should not throw error if not exists', done => {
 
       priority = Priority.fake();
 
-      priority.patch(function (error, updated) {
+      priority.patch((error, updated) => {
         expect(error).to.not.exist;
         expect(updated).to.exist;
         expect(updated._id).to.eql(priority._id);
@@ -109,11 +109,11 @@ describe('Priority', function () {
     });
   });
 
-  after(function (done) {
+  after(done => {
     Priority.deleteMany(done);
   });
 
-  after(function (done) {
+  after(done => {
     Jurisdiction.deleteMany(done);
   });
 
