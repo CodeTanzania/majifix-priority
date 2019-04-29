@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/CodeTanzania/majifix-priority.svg?branch=develop)](https://travis-ci.org/CodeTanzania/majifix-priority)
 [![Dependencies Status](https://david-dm.org/CodeTanzania/majifix-priority/status.svg?style=flat-square)](https://david-dm.org/CodeTanzania/majifix-priority)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/CodeTanzania/majifix-priority/tree/develop)
 
 A representation an entity which provides a way to prioritize service and service request(issues) in order of their importance.
@@ -70,7 +71,7 @@ It will be nice, if you open an issue first so that we can know what is going on
 
 The MIT License (MIT)
 
-Copyright (c) 2018 CodeTanzania & Contributors
+Copyright (c) 2018 - present CodeTanzania & Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
