@@ -70,16 +70,16 @@
     "supertest": "4.0.2"
   },
   "dependencies": {
-    "@codetanzania/majifix-common": ">=0.12.1",
-    "@codetanzania/majifix-jurisdiction": ">=1.5.4",
-    "@lykmapipo/express-common": ">=0.13.0",
-    "async": ">=2.6.2",
-    "express": ">=4.16.4",
+    "@codetanzania/majifix-common": ">=0.12.4",
+    "@codetanzania/majifix-jurisdiction": ">=1.5.5",
+    "@lykmapipo/express-common": ">=0.17.3",
+    "async": ">=3.0.0",
+    "express": ">=4.17.0",
     "lodash": ">=4.17.11",
     "moment": ">=2.24.0",
-    "mongoose-geojson-schemas": ">=0.10.2",
-    "mongoose-locale-schema": ">=0.2.2",
-    "mongoose-rest-actions": ">=0.24.1",
+    "mongoose-geojson-schemas": ">=0.10.5",
+    "mongoose-locale-schema": ">=0.3.1",
+    "mongoose-rest-actions": ">=0.28.1",
     "randomcolor": ">=0.5.4"
   },
   "config": {
