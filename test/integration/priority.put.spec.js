@@ -2,6 +2,7 @@
 
 /* dependencies */
 const path = require('path');
+const _ = require('lodash');
 const { expect } = require('chai');
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require(path.join(__dirname, '..', '..'));
@@ -63,13 +64,13 @@ describe('Priority', () => {
     });
 
     it('should throw error if not exists', done => {
-      const fake = Priority.fake();
+      const fake = Priority.fake().toObject();
 
       Priority
-        .put(fake._id, fake, (error, updated) => {
+        .put(fake._id, _.omit(fake, '_id'), (error, updated) => {
           expect(error).to.exist;
-          expect(error.status).to.exist;
-          expect(error.message).to.be.equal('Not Found');
+          // expect(error.status).to.exist;
+          expect(error.name).to.be.equal('DocumentNotFoundError');
           expect(updated).not.to.exist;
           done();
         });

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "grunt test",
     "integration": "grunt integration",
-    "dev": "BASE_PATH=./examples nodemon ./examples/app.js",
+    "dev": "BASE_PATH=./examples node ./examples/app.js",
     "commit": "git-cz",
     "commit:all": "git add -A && git-cz",
     "changelog": "changelog"
@@ -48,26 +48,28 @@
     "@commitlint/cli": "7.6.1",
     "@commitlint/config-conventional": "7.6.0",
     "@commitlint/travis-cli": "7.6.1",
+    "chai": "4.2.0",
     "commitizen": "3.1.1",
     "cz-conventional-changelog": "2.1.0",
     "generate-changelog": "1.7.1",
-    "lint-staged": "8.1.7",
-    "prettier": "1.17.1",
-    "husky": "2.3.0",
-    "chai": "4.2.0",
     "grunt": "1.0.4",
     "grunt-apidoc": "0.11.0",
     "grunt-contrib-jshint": "2.1.0",
     "grunt-contrib-watch": "1.1.0",
     "grunt-mocha-test": "0.13.3",
+    "husky": "2.3.0",
     "jshint-stylish": "2.2.1",
+    "lint-staged": "8.1.7",
     "mocha": "6.1.4",
     "mongoose": "5.5.10",
-    "nodemon": "1.19.0",
+    "prettier": "1.17.1",
     "sinon": "7.3.2",
     "sinon-chai": "3.3.0",
     "sinon-mongoose": "2.3.0",
     "supertest": "4.0.2"
+  },
+  "peerDependencies": {
+    "mongoose": ">=5.5.10"
   },
   "dependencies": {
     "@codetanzania/majifix-common": ">=0.12.4",
