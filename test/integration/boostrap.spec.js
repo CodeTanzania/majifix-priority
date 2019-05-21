@@ -10,7 +10,7 @@ const MONGODB_URI = 'mongodb://localhost/majifix-priority';
 
 
 /* clean and restore database */
-const wipe = (done) => {
+const wipe = done => {
   if (mongoose.connection && mongoose.connection.dropDatabase) {
     mongoose.connection.dropDatabase(done);
   } else {
@@ -20,7 +20,7 @@ const wipe = (done) => {
 
 
 /* setup database */
-before((done) => {
+before(done => {
   const options = { useNewUrlParser: true };
   mongoose.connect(MONGODB_URI, options, done);
 });

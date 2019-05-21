@@ -26,12 +26,13 @@
 /* dependencies */
 const path = require('path');
 const _ = require('lodash');
-const app = require('@lykmapipo/express-common');
+const { app, mount } = require('@lykmapipo/express-common');
 
 
 /* declarations */
 const pkg = require(path.join(__dirname, 'package.json'));
 const fields = [
+  `${__dirname}/package.json`,
   'name',
   'description',
   'version',
@@ -79,7 +80,7 @@ Object.defineProperty(exports, 'app', {
   get() {
 
     /* bind priority router */
-    app.mount(router);
+    mount(router);
     return app;
   }
 });

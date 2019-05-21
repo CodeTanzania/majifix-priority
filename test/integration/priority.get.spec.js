@@ -8,50 +8,50 @@ const { expect } = require('chai');
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require(path.join(__dirname, '..', '..'));
 
-describe('Priority', function () {
+describe('Priority', () => {
 
   let jurisdiction;
 
-  before(function (done) {
+  before(done => {
     Jurisdiction.deleteMany(done);
   });
 
-  before(function (done) {
+  before(done => {
     jurisdiction = Jurisdiction.fake();
-    jurisdiction.post(function (error, created) {
+    jurisdiction.post((error, created) => {
       jurisdiction = created;
       done(error, created);
     });
   });
 
-  before(function (done) {
+  before(done => {
     Priority.deleteMany(done);
   });
 
-  describe('get', function () {
+  describe('get', () => {
 
     let priorities;
 
-    before(function (done) {
+    before(done => {
       const fakes =
-        _.map(Priority.fake(32), function (priority) {
-          return function (next) {
+        _.map(Priority.fake(32), priority => {
+          return next => {
             priority.jurisdiction = jurisdiction;
             priority.post(next);
           };
         });
 
       async
-        .parallel(fakes, function (error, created) {
+        .parallel(fakes, (error, created) => {
           priorities = created;
           done(error, created);
         });
     });
 
-    it('should be able to get without options', function (done) {
+    it('should be able to get without options', done => {
 
       Priority
-        .get(function (error, results) {
+        .get((error, results) => {
           expect(error).to.not.exist;
           expect(results).to.exist;
           expect(results.data).to.exist;
@@ -74,14 +74,14 @@ describe('Priority', function () {
 
     });
 
-    it('should be able to get with options', function (done) {
+    it('should be able to get with options', done => {
 
       const options = {
         page: 1,
         limit: 20
       };
       Priority
-        .get(options, function (error, results) {
+        .get(options, (error, results) => {
           expect(error).to.not.exist;
           expect(results).to.exist;
           expect(results.data).to.exist;
@@ -105,7 +105,7 @@ describe('Priority', function () {
     });
 
 
-    it('should be able to search with options', function (done) {
+    it('should be able to search with options', done => {
 
       const options = {
         filter: {
@@ -113,7 +113,7 @@ describe('Priority', function () {
         }
       };
       Priority
-        .get(options, function (error, results) {
+        .get(options, (error, results) => {
           expect(error).to.not.exist;
           expect(results).to.exist;
           expect(results.data).to.exist;
@@ -137,14 +137,14 @@ describe('Priority', function () {
     });
 
 
-    it('should parse filter options', function (done) {
+    it('should parse filter options', done => {
       const options = {
         filter: {
           'name.en': priorities[0].name.en
         }
       };
       Priority
-        .get(options, function (error, results) {
+        .get(options, (error, results) => {
           expect(error).to.not.exist;
           expect(results).to.exist;
           expect(results.data).to.exist;
@@ -169,11 +169,11 @@ describe('Priority', function () {
 
   });
 
-  after(function (done) {
+  after(done => {
     Priority.deleteMany(done);
   });
 
-  after(function (done) {
+  after(done => {
     Jurisdiction.deleteMany(done);
   });
 
