@@ -59,7 +59,7 @@
     "grunt-mocha-test": "0.13.3",
     "husky": "2.4.0",
     "jshint-stylish": "2.2.1",
-    "lint-staged": "8.1.7",
+    "lint-staged": "8.2.0",
     "mocha": "6.1.4",
     "mongoose": "5.5.13",
     "prettier": "1.17.1",
