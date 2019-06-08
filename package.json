@@ -61,7 +61,7 @@
     "jshint-stylish": "2.2.1",
     "lint-staged": "8.2.0",
     "mocha": "6.1.4",
-    "mongoose": "5.5.13",
+    "mongoose": "5.5.14",
     "prettier": "1.18.2",
     "sinon": "7.3.2",
     "sinon-chai": "3.3.0",
