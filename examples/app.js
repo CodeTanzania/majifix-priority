@@ -1,9 +1,9 @@
 // dependencies
-const app = require('@lykmapipo/express-common');
+const { app, mount, start } = require('@lykmapipo/express-common');
 const { connect, jsonSchema } = require('@lykmapipo/mongoose-common');
 const { router, info, apiVersion } = require('../lib/index');
 
-app.mount(router);
+mount(router);
 
 connect(connectionError => {
   if (connectionError) {
@@ -22,7 +22,7 @@ connect(connectionError => {
   });
 
   /* fire the app */
-  app.start((error, env) => {
+  start((error, env) => {
     // eslint-disable-next-line no-console
     console.log(`visit http://0.0.0.0:${env.PORT}/${apiVersion}/priorities`);
   });
