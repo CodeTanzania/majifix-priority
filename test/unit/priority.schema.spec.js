@@ -1,24 +1,14 @@
-'use strict';
-
-
 /* dependencies */
-const path = require('path');
-const { expect } = require('chai');
-
+import { expect } from 'chai';
 
 /* declarations */
-const Priority =
-  require(path.join(__dirname, '..', '..', 'lib', 'priority.model'));
-
+import Priority from '../../src/priority.model';
 
 describe('Priority', () => {
-
   describe('Schema', () => {
-
     it('should have jurisdiction field', () => {
-
-      const jurisdiction = Priority.schema.tree.jurisdiction;
-      const instance = Priority.schema.paths.jurisdiction.instance;
+      const { jurisdiction } = Priority.schema.tree;
+      const { instance } = Priority.schema.paths.jurisdiction;
 
       expect(instance).to.be.equal('ObjectID');
       expect(jurisdiction).to.exist;
@@ -31,11 +21,10 @@ describe('Priority', () => {
     });
 
     describe('name', () => {
-
       it('should be an embedded sub-document', () => {
-        const name = Priority.schema.tree.name;
-        const instance = Priority.schema.paths.name.instance;
-        const tree = Priority.schema.tree.name.tree;
+        const { name } = Priority.schema.tree;
+        const { instance } = Priority.schema.paths.name;
+        const { tree } = Priority.schema.tree.name;
 
         expect(instance).to.be.equal('Embedded');
         expect(name).to.exist;
@@ -45,9 +34,8 @@ describe('Priority', () => {
       });
 
       it('should have type `en` locale field', () => {
-        const instance =
-          Priority.schema.paths.name.schema.paths.en.instance;
-        const en = Priority.schema.tree.name.tree.en;
+        const { instance } = Priority.schema.paths.name.schema.paths.en;
+        const { en } = Priority.schema.tree.name.tree;
 
         expect(instance).to.be.equal('String');
         expect(en).to.exist;
@@ -59,15 +47,12 @@ describe('Priority', () => {
         expect(en.index).to.be.true;
         expect(en.required).to.be.true;
         expect(en.searchable).to.be.true;
-
       });
     });
 
-
     it('should have weight field', () => {
-
-      const weight = Priority.schema.tree.weight;
-      const instance = Priority.schema.paths.weight.instance;
+      const { weight } = Priority.schema.tree;
+      const { instance } = Priority.schema.paths.weight;
 
       expect(instance).to.be.equal('Number');
       expect(weight).to.exist;
@@ -79,9 +64,8 @@ describe('Priority', () => {
     });
 
     it('should have color field', () => {
-
-      const color = Priority.schema.tree.color;
-      const instance = Priority.schema.paths.color.instance;
+      const { color } = Priority.schema.tree;
+      const { instance } = Priority.schema.paths.color;
 
       expect(instance).to.be.equal('String');
       expect(color).to.exist;
@@ -92,7 +76,5 @@ describe('Priority', () => {
       expect(color.uppercase).to.be.true;
       expect(color.default).to.exist;
     });
-
   });
-
 });
