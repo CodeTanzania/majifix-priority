@@ -1,28 +1,18 @@
-'use strict';
-
 /* dependencies */
-const path = require('path');
-const request = require('supertest');
-const { expect } = require('chai');
-const {
-  Priority,
-  apiVersion,
-  app
-} = require(path.join(__dirname, '..', '..'));
-
+import request from 'supertest';
+import { expect } from 'chai';
+import { app, mount } from '@lykmapipo/express-common';
+import { clear } from '@lykmapipo/mongoose-test-helpers';
+import { Priority, apiVersion, router } from '../../src/index';
 
 describe('Priority', () => {
-
+  mount(router);
   describe('Rest API', () => {
-
-    after(done => {
-      Priority.deleteMany(done);
-    });
+    before(done => clear(Priority, done));
 
     let priority;
 
     it('should handle HTTP POST on /priorities', done => {
-
       priority = Priority.fake();
 
       request(app)
@@ -42,13 +32,10 @@ describe('Priority', () => {
           expect(created.name).to.exist;
 
           done(error, response);
-
         });
-
     });
 
     it('should handle HTTP GET on /priorities', done => {
-
       request(app)
         .get(`/${apiVersion}/priorities`)
         .set('Accept', 'application/json')
@@ -58,7 +45,7 @@ describe('Priority', () => {
           expect(error).to.not.exist;
           expect(response).to.exist;
 
-          //assert payload
+          // assert payload
           const result = response.body;
           expect(result.data).to.exist;
           expect(result.total).to.exist;
@@ -68,13 +55,10 @@ describe('Priority', () => {
           expect(result.pages).to.exist;
           expect(result.lastModified).to.exist;
           done(error, response);
-
         });
-
     });
 
     it('should handle HTTP GET on /priorities/id:', done => {
-
       request(app)
         .get(`/${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
@@ -90,13 +74,10 @@ describe('Priority', () => {
           expect(found.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
-
         });
-
     });
 
     it('should handle HTTP PATCH on /priorities/id:', done => {
-
       const patch = priority.fakeOnly('name');
 
       request(app)
@@ -117,13 +98,10 @@ describe('Priority', () => {
           expect(patched.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
-
         });
-
     });
 
     it('should handle HTTP PUT on /priorities/id:', done => {
-
       const put = priority.fakeOnly('name');
 
       request(app)
@@ -144,13 +122,10 @@ describe('Priority', () => {
           expect(updated.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
-
         });
-
     });
 
     it('should handle HTTP DELETE on /priorities/:id', done => {
-
       request(app)
         .delete(`/${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
@@ -167,10 +142,8 @@ describe('Priority', () => {
           expect(deleted.name.en).to.be.equal(priority.name.en);
 
           done(error, response);
-
         });
     });
-
   });
-
+  after(done => clear(Priority, done));
 });

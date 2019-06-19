@@ -1,6 +1,3 @@
-'use strict';
-
-
 /**
  * @apiDefine Priority Priority
  *
@@ -15,7 +12,6 @@
  * @version 1.0.0
  * @public
  */
-
 
 /**
  * @apiDefine Priority
@@ -32,7 +28,6 @@
  * @apiSuccess {Date} createdAt Date when priority was created
  * @apiSuccess {Date} updatedAt Date when priority was last updated
  */
-
 
 /**
  * @apiDefine Priorities
@@ -60,7 +55,6 @@
  *
  */
 
-
 /**
  * @apiDefine PrioritySuccessResponse
  * @apiSuccessExample {json} Success-Response:
@@ -81,7 +75,6 @@
  *       "updatedAt": "2017-05-20T11:35:01.059Z",
  *    }
  */
-
 
 /**
  * @apiDefine PrioritiesSuccessResponse
@@ -115,27 +108,22 @@
  *   }
  */
 
-
 /* dependencies */
-const path = require('path');
-const _ = require('lodash');
-const { getString } = require('@lykmapipo/env');
-const Router = require('@lykmapipo/express-common').Router;
-
+import _ from 'lodash';
+import { getString } from '@lykmapipo/env';
+import { Router } from '@lykmapipo/express-common';
+import Priority from './priority.model';
 
 /* local  constants */
-const API_VERSION = getString('API_VERSION','1.0.0');
+const API_VERSION = getString('API_VERSION', '1.0.0');
 const PATH_LIST = '/priorities';
 const PATH_SINGLE = '/priorities/:id';
 const PATH_JURISDICTION = '/jurisdictions/:jurisdiction/priorities';
 
-
 /* declarations */
-const Priority = require(path.join(__dirname, 'priority.model'));
 const router = new Router({
-  version: API_VERSION
+  version: API_VERSION,
 });
-
 
 /**
  * @api {get} /priorities List Priorities
@@ -154,28 +142,22 @@ const router = new Router({
  * @apiUse AuthorizationHeaderErrorExample
  */
 router.get(PATH_LIST, function getPriorities(request, response, next) {
-
-  //obtain request options
+  // obtain request options
   const options = _.merge({}, request.mquery);
 
-  Priority
-    .get(options, function onGetPriorities(error, results) {
+  Priority.get(options, function onGetPriorities(error, results) {
+    // forward error
+    if (error) {
+      next(error);
+    }
 
-      //forward error
-      if (error) {
-        next(error);
-      }
-
-      //handle response
-      else {
-        response.status(200);
-        response.json(results);
-      }
-
-    });
-
+    // handle response
+    else {
+      response.status(200);
+      response.json(results);
+    }
+  });
 });
-
 
 /**
  * @api {post} /priorities Create New Priority
@@ -194,28 +176,22 @@ router.get(PATH_LIST, function getPriorities(request, response, next) {
  * @apiUse AuthorizationHeaderErrorExample
  */
 router.post(PATH_LIST, function postPriority(request, response, next) {
-
   //   obtain request body
   const body = _.merge({}, request.body);
 
-  Priority
-    .post(body, function onPostPriority(error, created) {
+  Priority.post(body, function onPostPriority(error, created) {
+    // forward error
+    if (error) {
+      next(error);
+    }
 
-      //forward error
-      if (error) {
-        next(error);
-      }
-
-      //handle response
-      else {
-        response.status(201);
-        response.json(created);
-      }
-
-    });
-
+    // handle response
+    else {
+      response.status(201);
+      response.json(created);
+    }
+  });
 });
-
 
 /**
  * @api {get} /priorities/:id Get Existing Priority
@@ -233,31 +209,25 @@ router.post(PATH_LIST, function postPriority(request, response, next) {
  * @apiUse AuthorizationHeaderErrorExample
  */
 router.get(PATH_SINGLE, function getPriority(request, response, next) {
-
-  //obtain request options
+  // obtain request options
   const options = _.merge({}, request.mquery);
 
-  //obtain priority id
-  options._id = request.params.id;
+  // obtain priority id
+  options._id = request.params.id; // eslint-disable-line no-underscore-dangle
 
-  Priority
-    .getById(options, function onGetPriority(error, found) {
+  Priority.getById(options, function onGetPriority(error, found) {
+    // forward error
+    if (error) {
+      next(error);
+    }
 
-      // forward error
-      if (error) {
-        next(error);
-      }
-
-      // handle response
-      else {
-        response.status(200);
-        response.json(found);
-      }
-
-    });
-
+    // handle response
+    else {
+      response.status(200);
+      response.json(found);
+    }
+  });
 });
-
 
 /**
  * @api {patch} /priorities/:id Patch Existing Priority
@@ -276,31 +246,25 @@ router.get(PATH_SINGLE, function getPriority(request, response, next) {
  * @apiUse AuthorizationHeaderErrorExample
  */
 router.patch(PATH_SINGLE, function patchPriority(request, response, next) {
+  // obtain priority id
+  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
 
-  //obtain priority id
-  const _id = request.params.id;
-
-  //obtain request body
+  // obtain request body
   const patches = _.merge({}, request.body);
 
-  Priority
-    .patch(_id, patches, function onPatchPriority(error, patched) {
+  Priority.patch(_id, patches, function onPatchPriority(error, patched) {
+    // forward error
+    if (error) {
+      next(error);
+    }
 
-      //forward error
-      if (error) {
-        next(error);
-      }
-
-      //handle response
-      else {
-        response.status(200);
-        response.json(patched);
-      }
-
-    });
-
+    // handle response
+    else {
+      response.status(200);
+      response.json(patched);
+    }
+  });
 });
-
 
 /**
  * @api {put} /priorities/:id Put Existing Priority
@@ -319,31 +283,25 @@ router.patch(PATH_SINGLE, function patchPriority(request, response, next) {
  * @apiUse AuthorizationHeaderErrorExample
  */
 router.put(PATH_SINGLE, function putPriority(request, response, next) {
+  // obtain priority id
+  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
 
-  //obtain priority id
-  const _id = request.params.id;
-
-  //obtain request body
+  // obtain request body
   const updates = _.merge({}, request.body);
 
-  Priority
-    .put(_id, updates, function onPutPriority(error, updated) {
+  Priority.put(_id, updates, function onPutPriority(error, updated) {
+    // forward error
+    if (error) {
+      next(error);
+    }
 
-      //forward error
-      if (error) {
-        next(error);
-      }
-
-      //handle response
-      else {
-        response.status(200);
-        response.json(updated);
-      }
-
-    });
-
+    // handle response
+    else {
+      response.status(200);
+      response.json(updated);
+    }
+  });
 });
-
 
 /**
  * @api {delete} /priorities/:id Delete Priority
@@ -361,30 +319,23 @@ router.put(PATH_SINGLE, function putPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.delete(PATH_SINGLE, function deletePriority(request, response,
-  next) {
+router.delete(PATH_SINGLE, function deletePriority(request, response, next) {
+  // obtain priority id
+  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
 
-  //obtain priority id
-  const _id = request.params.id;
+  Priority.del(_id, function onDeletePriority(error, deleted) {
+    // forward error
+    if (error) {
+      next(error);
+    }
 
-  Priority
-    .del(_id, function onDeletePriority(error, deleted) {
-
-      //forward error
-      if (error) {
-        next(error);
-      }
-
-      //handle response
-      else {
-        response.status(200);
-        response.json(deleted);
-      }
-
-    });
-
+    // handle response
+    else {
+      response.status(200);
+      response.json(deleted);
+    }
+  });
 });
-
 
 /**
  * @api {get} /jurisdictions/:jurisdiction/priorities List Jurisdiction Priorities
@@ -403,33 +354,24 @@ router.delete(PATH_SINGLE, function deletePriority(request, response,
  * @apiUse AuthorizationHeaderErrorExample
  */
 router.get(PATH_JURISDICTION, function getPriorities(request, response, next) {
-
-  //obtain request options
+  // obtain request options
   const { jurisdiction } = request.params;
-  const filter =
-    (jurisdiction ? { filter: { jurisdiction: jurisdiction } } : {}); //TODO support parent and no jurisdiction
-  const options =
-    _.merge({}, filter, request.mquery);
+  const filter = jurisdiction ? { filter: { jurisdiction } } : {}; // TODO support parent and no jurisdiction
+  const options = _.merge({}, filter, request.mquery);
 
+  Priority.get(options, function onGetPriorities(error, found) {
+    // forward error
+    if (error) {
+      next(error);
+    }
 
-  Priority
-    .get(options, function onGetPriorities(error, found) {
-
-      //forward error
-      if (error) {
-        next(error);
-      }
-
-      //handle response
-      else {
-        response.status(200);
-        response.json(found);
-      }
-
-    });
-
+    // handle response
+    else {
+      response.status(200);
+      response.json(found);
+    }
+  });
 });
 
-
 /* expose router */
-module.exports = router;
+export default router;
