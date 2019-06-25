@@ -75,7 +75,7 @@
     "chai": "4.2.0",
     "commitizen": "3.1.1",
     "cz-conventional-changelog": "2.1.0",
-    "generate-changelog": "1.7.1",
+    "generate-changelog": "1.8.0",
     "husky": "2.5.0",
     "jshint-stylish": "2.2.1",
     "lint-staged": "8.2.1",
