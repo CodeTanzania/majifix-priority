@@ -53,11 +53,11 @@
     "url": "https://majifix-priority.herokuapp.com/v1/priorities"
   },
   "devDependencies": {
-    "@babel/cli": "7.5.0",
-    "@babel/core": "7.5.4",
-    "@babel/node": "7.5.0",
-    "@babel/preset-env": "7.5.4",
-    "@babel/register": "7.4.4",
+    "@babel/cli": "7.5.5",
+    "@babel/core": "7.5.5",
+    "@babel/node": "7.5.5",
+    "@babel/preset-env": "7.5.5",
+    "@babel/register": "7.5.5",
     "@lykmapipo/mongoose-test-helpers": "0.7.15",
     "doxdox": "3.0.0",
     "eslint": "6.0.1",
