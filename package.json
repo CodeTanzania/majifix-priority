@@ -68,7 +68,7 @@
     "eslint-plugin-prettier": "3.1.0",
     "rimraf": "2.6.3",
     "rollup": "1.17.0",
-    "@benmaruchu/faker": "4.2.1",
+    "@benmaruchu/faker": "4.3.0",
     "@commitlint/cli": "8.1.0",
     "@commitlint/config-conventional": "8.1.0",
     "@commitlint/travis-cli": "8.1.0",
