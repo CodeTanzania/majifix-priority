@@ -61,7 +61,7 @@
     "@lykmapipo/mongoose-test-helpers": "0.7.16",
     "doxdox": "3.0.0",
     "eslint": "6.1.0",
-    "eslint-config-airbnb-base": "13.2.0",
+    "eslint-config-airbnb-base": "14.0.0",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-mocha": "6.0.0",
