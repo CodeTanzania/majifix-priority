@@ -58,7 +58,7 @@
     "@babel/node": "7.5.5",
     "@babel/preset-env": "7.5.5",
     "@babel/register": "7.5.5",
-    "@lykmapipo/mongoose-test-helpers": "0.7.16",
+    "@lykmapipo/mongoose-test-helpers": "0.7.17",
     "doxdox": "3.0.0",
     "eslint": "6.1.0",
     "eslint-config-airbnb-base": "14.0.0",
