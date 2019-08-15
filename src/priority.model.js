@@ -18,33 +18,34 @@
 
 /* dependencies */
 import _ from 'lodash';
-import async from 'async';
 import randomColor from 'randomcolor';
-import mongoose from 'mongoose';
+import { getString, getStrings } from '@lykmapipo/env';
+import { createSchema, model, ObjectId } from '@lykmapipo/mongoose-common';
 import localize from 'mongoose-locale-schema';
 import actions from 'mongoose-rest-actions';
-import { schema, models } from '@codetanzania/majifix-common';
-import { getString, getStrings } from '@lykmapipo/env';
+import exportable from '@lykmapipo/mongoose-exportable';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
 
-const { Schema } = mongoose;
-const { ObjectId } = Schema.Types;
+import {
+  POPULATION_MAX_DEPTH,
+  MODEL_NAME_JURISDICTION,
+  MODEL_NAME_PRIORITY,
+  MODEL_NAME_SERVICEGROUP,
+  MODEL_NAME_SERVICE,
+  MODEL_NAME_SERVICEREQUEST,
+  COLLECTION_NAME_PRIORITY,
+  PATH_NAME_PRIORITY,
+  checkDependenciesFor,
+} from '@codetanzania/majifix-common';
 
 /* local constants */
 const DEFAULT_LOCALE = getString('DEFAULT_L0CALE', 'en');
 const JURISDICTION_PATH = 'jurisdiction';
-const SCHEMA_OPTIONS = { timestamps: true, emitIndexErrors: true };
+const SCHEMA_OPTIONS = { collection: COLLECTION_NAME_PRIORITY };
 const OPTION_AUTOPOPULATE = {
   select: { name: 1, color: 1 },
-  maxDepth: schema.POPULATION_MAX_DEPTH,
+  maxDepth: POPULATION_MAX_DEPTH,
 };
-const {
-  PRIORITY_MODEL_NAME,
-  SERVICEGROUP_MODEL_NAME,
-  SERVICE_MODEL_NAME,
-  SERVICEREQUEST_MODEL_NAME,
-  getModel,
-} = models;
 
 /* declarations */
 let locales = getStrings('LOCALES', ['en']);
@@ -63,7 +64,7 @@ locales = _.map(locales, function cb(locale) {
  * @version 1.0.0
  * @private
  */
-const PrioritySchema = new Schema(
+const PrioritySchema = createSchema(
   {
     /**
      * @name jurisdiction
@@ -89,7 +90,7 @@ const PrioritySchema = new Schema(
      */
     jurisdiction: {
       type: ObjectId,
-      ref: Jurisdiction.MODEL_NAME,
+      ref: MODEL_NAME_JURISDICTION,
       exists: true,
       autopopulate: Jurisdiction.OPTION_AUTOPOPULATE,
       index: true,
@@ -175,7 +176,9 @@ const PrioritySchema = new Schema(
       fake: true,
     },
   },
-  SCHEMA_OPTIONS
+  SCHEMA_OPTIONS,
+  actions,
+  exportable
 );
 
 /*
@@ -226,114 +229,18 @@ PrioritySchema.pre('validate', function cb(next) {
 PrioritySchema.methods.beforeDelete = function beforeDelete(done) {
   // restrict delete if
 
-  async.parallel(
-    {
-      // 1...there are service groups use the priority
-      serviceGroup: function checkServiceGroupDependency(next) {
-        // get service group model
-        const ServiceGroup = getModel(SERVICEGROUP_MODEL_NAME);
+  // collect dependencies model name
+  const dependencies = [
+    MODEL_NAME_SERVICEGROUP,
+    MODEL_NAME_SERVICE,
+    MODEL_NAME_SERVICEREQUEST,
+  ];
 
-        // check service group dependency
-        if (ServiceGroup) {
-          ServiceGroup.count(
-            { priority: this._id }, // eslint-disable-line no-underscore-dangle
-            function cb(error, count) {
-              let cbError = error;
-              // warning can not delete
-              if (count && count > 0) {
-                const errorMessage = `Fail to Delete. ${count} service groups depend on it`;
-                cbError = new Error(errorMessage);
-              }
+  // path to check
+  const path = PATH_NAME_PRIORITY;
 
-              // ensure error status
-              if (cbError) {
-                cbError.status = 400;
-              }
-
-              // return
-              next(cbError, this);
-            }.bind(this)
-          );
-        }
-
-        // continue
-        else {
-          next();
-        }
-      }.bind(this),
-
-      // 1...there are services use the priority
-      service: function checkServiceDependency(next) {
-        // get service model
-        const Service = getModel(SERVICE_MODEL_NAME);
-
-        // check service dependency
-        if (Service) {
-          Service.count(
-            { priority: this._id }, // eslint-disable-line no-underscore-dangle
-            function cb(error, count) {
-              let cbError = error;
-              // warning can not delete
-              if (count && count > 0) {
-                const errorMessage = `Fail to Delete. ${count} services depend on it`;
-                cbError = new Error(errorMessage);
-              }
-
-              // ensure error status
-              if (cbError) {
-                cbError.status = 400;
-              }
-
-              // return
-              next(cbError, this);
-            }.bind(this)
-          );
-        }
-
-        // continue
-        else {
-          next();
-        }
-      }.bind(this),
-
-      // 1...there are service request use the priority
-      serviceRequest: function checkServiceRequestDependency(next) {
-        // get service request model
-        const ServiceRequest = getModel(SERVICEREQUEST_MODEL_NAME);
-
-        // check service request dependency
-        if (ServiceRequest) {
-          ServiceRequest.count(
-            { priority: this._id }, // eslint-disable-line no-underscore-dangle
-            function cb(error, count) {
-              let cbError = error;
-              // warning can not delete
-              if (count && count > 0) {
-                const errorMessage = `Fail to Delete. ${count} service requests depend on it`;
-                cbError = new Error(errorMessage);
-              }
-
-              // ensure error status
-              if (cbError) {
-                cbError.status = 400;
-              }
-
-              // return
-              next(cbError, this);
-            }.bind(this)
-          );
-        }
-
-        // continue
-        else {
-          next();
-        }
-      }.bind(this),
-    },
-    function cb(error) {
-      done(error, this);
-    }
-  );
+  // do check dependencies
+  return checkDependenciesFor(this, { path, dependencies }, done);
 };
 
 /**
@@ -426,17 +333,8 @@ PrioritySchema.statics.findDefault = function findDefault(done) {
 
 /* expose static constants */
 PrioritySchema.statics.DEFAULT_LOCALE = DEFAULT_LOCALE;
-PrioritySchema.statics.MODEL_NAME = PRIORITY_MODEL_NAME;
+PrioritySchema.statics.MODEL_NAME = MODEL_NAME_PRIORITY;
 PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
 
-/*
- *------------------------------------------------------------------------------
- * Plugins
- *------------------------------------------------------------------------------
- */
-
-/* use mongoose rest actions */
-PrioritySchema.plugin(actions);
-
 /* export priority model */
-export default mongoose.model(PRIORITY_MODEL_NAME, PrioritySchema);
+export default model(MODEL_NAME_PRIORITY, PrioritySchema);
