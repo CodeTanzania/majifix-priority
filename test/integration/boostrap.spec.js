@@ -1,5 +1,8 @@
 import { connect, clear, drop } from '@lykmapipo/mongoose-test-helpers';
 
+process.env.DEFAULT_LOCALE = 'en';
+process.env.LOCALES = 'en,sw';
+
 /* setup database */
 before(done => connect(done));
 
