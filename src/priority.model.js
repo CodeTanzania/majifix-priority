@@ -25,13 +25,11 @@ import exportable from '@lykmapipo/mongoose-exportable';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
 import {
   POPULATION_MAX_DEPTH,
-  MODEL_NAME_JURISDICTION,
   MODEL_NAME_PRIORITY,
   MODEL_NAME_SERVICEGROUP,
   MODEL_NAME_SERVICE,
   MODEL_NAME_SERVICEREQUEST,
   COLLECTION_NAME_PRIORITY,
-  PATH_NAME_JURISDICTION,
   PATH_NAME_PRIORITY,
   checkDependenciesFor,
 } from '@codetanzania/majifix-common';
@@ -88,8 +86,8 @@ const PrioritySchema = createSchema(
      */
     jurisdiction: {
       type: ObjectId,
-      ref: MODEL_NAME_JURISDICTION,
-      exists: true,
+      ref: Jurisdiction.MODEL_NAME,
+      exists: { refresh: true, select: Jurisdiction.OPTION_SELECT },
       autopopulate: Jurisdiction.OPTION_AUTOPOPULATE,
       index: true,
     },
@@ -250,64 +248,6 @@ PrioritySchema.methods.beforeDelete = function beforeDelete(done) {
 
   // do check dependencies
   return checkDependenciesFor(this, { path, dependencies }, done);
-};
-
-/**
- * @name beforePost
- * @function beforePost
- * @description pre save priority logics
- * @param  {function} done callback to invoke on success or error
- *
- * @since 0.1.0
- * @version 1.0.0
- * @instance
- */
-PrioritySchema.methods.beforePost = function beforePost(done) {
-  // ensure jurisdiction is pre loaded before post(save)
-  const jurisdictionId = this.jurisdiction
-    ? this.jurisdiction._id // eslint-disable-line no-underscore-dangle
-    : this.jurisdiction;
-
-  // prefetch existing jurisdiction
-  if (jurisdictionId) {
-    Jurisdiction.getById(
-      jurisdictionId,
-      function cb(error, jurisdiction) {
-        // assign existing jurisdiction
-        if (jurisdiction) {
-          this.jurisdiction = jurisdiction;
-        }
-
-        // return
-        done(error, this);
-      }.bind(this)
-    );
-  }
-
-  // continue
-  else {
-    done();
-  }
-};
-
-/**
- * @name afterPost
- * @function afterPost
- * @description post save priority logics
- * @param  {function} done callback to invoke on success or error
- *
- * @since 0.1.0
- * @version 1.0.0
- * @instance
- */
-PrioritySchema.methods.afterPost = function afterPost(done) {
-  // ensure jurisdiction is populated after post(save)
-  const population = _.merge(
-    {},
-    { path: PATH_NAME_JURISDICTION },
-    Jurisdiction.OPTION_AUTOPOPULATE
-  );
-  this.populate(population, done);
 };
 
 /*

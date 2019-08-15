@@ -13,8 +13,8 @@ describe('Priority', () => {
       expect(jurisdiction.type).to.be.a('function');
       expect(jurisdiction.type.name).to.be.equal('ObjectId');
       expect(jurisdiction.index).to.be.true;
-      expect(jurisdiction.exists).to.be.true;
-      expect(jurisdiction.autopopulate).to.exist;
+      expect(jurisdiction.exists).to.be.exist.and.be.an('object');
+      expect(jurisdiction.autopopulate).to.exist.and.be.an('object');
     });
 
     describe('name', () => {

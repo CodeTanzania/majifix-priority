@@ -92,7 +92,7 @@
   },
   "dependencies": {
     "@codetanzania/majifix-common": ">=0.15.0",
-    "@codetanzania/majifix-jurisdiction": ">=1.6.0",
+    "@codetanzania/majifix-jurisdiction": ">=1.7.0",
     "randomcolor": ">=0.5.4",
     "@lykmapipo/common": ">=0.25.1",
     "@lykmapipo/env": ">=0.12.1",
