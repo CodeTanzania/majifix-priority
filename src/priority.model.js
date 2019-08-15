@@ -113,10 +113,10 @@ const PrioritySchema = createSchema(
     name: localize({
       type: String,
       trim: true,
-      required: true,
       index: true,
       searchable: true,
-      locales,
+      taggable: true,
+      exportable: true,
       fake: {
         generator: 'commerce',
         type: 'productName',
