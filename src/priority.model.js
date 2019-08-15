@@ -15,10 +15,8 @@
  * @version 1.0.0
  * @public
  */
-
-/* dependencies */
 import _ from 'lodash';
-import randomColor from 'randomcolor';
+import { randomColor } from '@lykmapipo/common';
 import { getString, getStrings } from '@lykmapipo/env';
 import { createSchema, model, ObjectId } from '@lykmapipo/mongoose-common';
 import localize from 'mongoose-locale-schema';
@@ -40,7 +38,7 @@ import {
 
 /* local constants */
 const DEFAULT_LOCALE = getString('DEFAULT_L0CALE', 'en');
-const JURISDICTION_PATH = 'jurisdiction';
+const PATH_NAME_JURISDICTION = 'jurisdiction';
 const SCHEMA_OPTIONS = { collection: COLLECTION_NAME_PRIORITY };
 const OPTION_AUTOPOPULATE = {
   select: { name: 1, color: 1 },
@@ -170,9 +168,7 @@ const PrioritySchema = createSchema(
       type: String,
       trim: true,
       uppercase: true,
-      default() {
-        return randomColor().toUpperCase();
-      },
+      default: () => randomColor(),
       fake: true,
     },
   },
@@ -204,7 +200,7 @@ _.forEach(locales, function cb(locale) {
 PrioritySchema.pre('validate', function cb(next) {
   // set default color if not set
   if (_.isEmpty(this.color)) {
-    this.color = randomColor().toUpperCase();
+    this.color = randomColor();
   }
 
   next();
@@ -295,7 +291,7 @@ PrioritySchema.methods.afterPost = function afterPost(done) {
   // ensure jurisdiction is populated after post(save)
   const population = _.merge(
     {},
-    { path: JURISDICTION_PATH },
+    { path: PATH_NAME_JURISDICTION },
     Jurisdiction.OPTION_AUTOPOPULATE
   );
   this.populate(population, done);
