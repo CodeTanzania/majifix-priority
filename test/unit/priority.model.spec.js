@@ -1,7 +1,4 @@
-/* dependencies */
-import { expect } from 'chai';
-
-/* declaration */
+import { expect } from '@lykmapipo/mongoose-test-helpers';
 import Priority from '../../src/priority.model';
 
 describe('Priority', () => {

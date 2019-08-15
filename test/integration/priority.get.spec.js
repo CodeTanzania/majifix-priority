@@ -1,8 +1,6 @@
-/* dependencies */
 import _ from 'lodash';
-import { expect } from 'chai';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
-import { clear, create } from '@lykmapipo/mongoose-test-helpers';
+import { clear, create, expect } from '@lykmapipo/mongoose-test-helpers';
 import { Priority } from '../../src/index';
 
 describe('Priority', () => {
