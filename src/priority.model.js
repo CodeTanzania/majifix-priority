@@ -32,18 +32,19 @@ import {
   MODEL_NAME_SERVICE,
   MODEL_NAME_SERVICEREQUEST,
   COLLECTION_NAME_PRIORITY,
+  PATH_NAME_JURISDICTION,
   PATH_NAME_PRIORITY,
   checkDependenciesFor,
 } from '@codetanzania/majifix-common';
 
 /* local constants */
 const DEFAULT_LOCALE = getString('DEFAULT_L0CALE', 'en');
-const PATH_NAME_JURISDICTION = 'jurisdiction';
-const SCHEMA_OPTIONS = { collection: COLLECTION_NAME_PRIORITY };
+const OPTION_SELECT = { name: 1, color: 1 };
 const OPTION_AUTOPOPULATE = {
-  select: { name: 1, color: 1 },
+  select: OPTION_SELECT,
   maxDepth: POPULATION_MAX_DEPTH,
 };
+const SCHEMA_OPTIONS = { collection: COLLECTION_NAME_PRIORITY };
 
 /* declarations */
 let locales = getStrings('LOCALES', ['en']);
