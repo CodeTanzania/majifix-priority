@@ -96,8 +96,8 @@
     "randomcolor": ">=0.5.4",
     "@lykmapipo/common": ">=0.25.1",
     "@lykmapipo/env": ">=0.12.1",
-    "@lykmapipo/express-common": ">=0.17.9",
-    "@lykmapipo/express-rest-actions": ">=0.6.6",
+    "@lykmapipo/express-common": ">=0.17.10",
+    "@lykmapipo/express-rest-actions": ">=0.6.7",
     "@lykmapipo/mongoose-common": ">=0.25.10",
     "@lykmapipo/mongoose-exportable": ">=0.3.7",
     "async": ">=3.1.0",
@@ -105,7 +105,7 @@
     "lodash": ">=4.17.15",
     "moment": ">=2.24.0",
     "mongoose-geojson-schemas": ">=0.10.9",
-    "mongoose-locale-schema": ">=0.3.5",
+    "mongoose-locale-schema": ">=0.4.0",
     "mongoose-rest-actions": ">=0.28.7"
   },
   "config": {

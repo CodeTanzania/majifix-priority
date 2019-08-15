@@ -19,7 +19,7 @@ import _ from 'lodash';
 import { randomColor } from '@lykmapipo/common';
 import { getString, getStrings } from '@lykmapipo/env';
 import { createSchema, model, ObjectId } from '@lykmapipo/mongoose-common';
-import localize from 'mongoose-locale-schema';
+import { localize } from 'mongoose-locale-schema';
 import actions from 'mongoose-rest-actions';
 import exportable from '@lykmapipo/mongoose-exportable';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
