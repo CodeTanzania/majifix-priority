@@ -23,7 +23,6 @@ import localize from 'mongoose-locale-schema';
 import actions from 'mongoose-rest-actions';
 import exportable from '@lykmapipo/mongoose-exportable';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
-
 import {
   POPULATION_MAX_DEPTH,
   MODEL_NAME_JURISDICTION,
@@ -37,7 +36,7 @@ import {
   checkDependenciesFor,
 } from '@codetanzania/majifix-common';
 
-/* local constants */
+/* constants */
 const DEFAULT_LOCALE = getString('DEFAULT_L0CALE', 'en');
 const OPTION_SELECT = { name: 1, color: 1 };
 const OPTION_AUTOPOPULATE = {
@@ -198,13 +197,8 @@ _.forEach(locales, function cb(locale) {
  *------------------------------------------------------------------------------
  */
 
-PrioritySchema.pre('validate', function cb(next) {
-  // set default color if not set
-  if (_.isEmpty(this.color)) {
-    this.color = randomColor();
-  }
-
-  next();
+PrioritySchema.pre('validate', function preValidate(next) {
+  this.preValidate(next);
 });
 
 /*
@@ -212,6 +206,24 @@ PrioritySchema.pre('validate', function cb(next) {
  * Instance
  *------------------------------------------------------------------------------
  */
+
+/**
+ * @name preValidate
+ * @description priority schema pre validation hook logic
+ * @param {function} done callback to invoke on success or error
+ * @since 0.1.0
+ * @version 1.0.0
+ * @instance
+ */
+PrioritySchema.methods.preValidate = function preValidate(done) {
+  // set default color if not set
+  if (_.isEmpty(this.color)) {
+    this.color = randomColor();
+  }
+
+  // continue
+  done();
+};
 
 /**
  * @name beforeDelete
