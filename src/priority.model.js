@@ -15,9 +15,14 @@
  * @public
  */
 import _ from 'lodash';
-import { randomColor, compact, mergeObjects } from '@lykmapipo/common';
+import { idOf, randomColor, compact, mergeObjects } from '@lykmapipo/common';
 import { createSchema, model, ObjectId } from '@lykmapipo/mongoose-common';
-import { localize, localizedIndexesFor } from 'mongoose-locale-schema';
+import {
+  localize,
+  localizedIndexesFor,
+  localizedKeysFor,
+  localizedValuesFor,
+} from 'mongoose-locale-schema';
 import actions from 'mongoose-rest-actions';
 import exportable from '@lykmapipo/mongoose-exportable';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
@@ -305,6 +310,31 @@ PrioritySchema.statics.findDefault = done => {
 
   // obtain default priority
   return Priority.getOneOrDefault({}, done);
+};
+
+/**
+ * @name prepareSeedCriteria
+ * @function prepareSeedCriteria
+ * @description define seed data criteria
+ * @param {Object} seed priority to be seeded
+ * @returns {Object} packed criteria for seeding
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 1.5.0
+ * @version 0.1.0
+ * @static
+ */
+PrioritySchema.statics.prepareSeedCriteria = seed => {
+  const names = localizedKeysFor('name');
+
+  const copyOfSeed = seed;
+  copyOfSeed.name = localizedValuesFor(seed.name);
+
+  const criteria = idOf(copyOfSeed)
+    ? _.pick(copyOfSeed, '_id')
+    : _.pick(copyOfSeed, 'jurisdiction', ...names);
+
+  return criteria;
 };
 
 /**
