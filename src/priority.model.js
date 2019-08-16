@@ -297,15 +297,14 @@ PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
  * @since 0.1.0
  * @version 1.0.0
  * @static
+ * @deprecated
  */
 PrioritySchema.statics.findDefault = done => {
   // refs
   const Priority = model(MODEL_NAME_PRIORITY);
 
-  // sort priority by weight descending and take one
-  return Priority.findOne()
-    .sort({ weight: 'asc' })
-    .exec(done);
+  // obtain default priority
+  return Priority.getOneOrDefault({}, done);
 };
 
 /**

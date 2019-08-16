@@ -5,16 +5,18 @@ import { Priority } from '../../src/index';
 describe('Priority', () => {
   const jurisdiction = Jurisdiction.fake();
 
-  before(done => clear(Priority, Jurisdiction, done));
+  before(done => clear(done));
 
   before(done => create(jurisdiction, done));
 
   let priority;
   before(done => {
     priority = Priority.fake();
+    priority.default = true;
     priority.jurisdiction = jurisdiction;
     create(priority, done);
   });
+
   describe('static', () => {
     it('should be able to get default', done => {
       Priority.findDefault((error, data) => {
@@ -33,5 +35,5 @@ describe('Priority', () => {
     });
   });
 
-  after(done => clear(Jurisdiction, Priority, done));
+  after(done => clear(done));
 });
