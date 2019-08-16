@@ -303,9 +303,6 @@ PrioritySchema.statics.findDefault = function findDefault(done) {
   // reference priority
   const Priority = this;
 
-  // TODO use settings to set default priority
-  // TODO cache in memory
-
   // sort priority by weight descending and take one
   return Priority.findOne()
     .sort({ weight: 'asc' })
