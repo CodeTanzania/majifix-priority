@@ -6,7 +6,6 @@
  * in order of their importance.
  *
  * @requires https://github.com/CodeTanzania/majifix-jurisdiction
- * @see {@link https://github.com/CodeTanzania/majifix-jurisdiction|Jurisdiction}
  * @author Benson Maruchu <benmaruchu@gmail.com>
  * @author lally elias <lallyelias87@gmail.com>
  *
@@ -16,7 +15,7 @@
  * @public
  */
 import _ from 'lodash';
-import { randomColor } from '@lykmapipo/common';
+import { randomColor, compact, mergeObjects } from '@lykmapipo/common';
 import { createSchema, model, ObjectId } from '@lykmapipo/mongoose-common';
 import { localize, localizedIndexesFor } from 'mongoose-locale-schema';
 import actions from 'mongoose-rest-actions';
@@ -299,13 +298,59 @@ PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
  * @version 1.0.0
  * @static
  */
-PrioritySchema.statics.findDefault = function findDefault(done) {
-  // reference priority
-  const Priority = this;
+PrioritySchema.statics.findDefault = done => {
+  // refs
+  const Priority = model(MODEL_NAME_PRIORITY);
 
   // sort priority by weight descending and take one
   return Priority.findOne()
     .sort({ weight: 'asc' })
+    .exec(done);
+};
+
+/**
+ * @name getOneOrDefault
+ * @function getOneOrDefault
+ * @description Find existing priority or default based on given criteria
+ * @param {Object} criteria valid query criteria
+ * @param {Function} done callback to invoke on success or error
+ * @returns {Object|Error} found priority or error
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 1.5.0
+ * @version 0.1.0
+ * @static
+ * @example
+ *
+ * const criteria = { _id: '...'};
+ * Priority.getOneOrDefault(criteria, (error, found) => { ... });
+ *
+ */
+PrioritySchema.statics.getOneOrDefault = (criteria, done) => {
+  // normalize criteria
+  const { _id, ...filters } = mergeObjects(criteria);
+
+  const allowDefault = true;
+  const allowId = !_.isEmpty(_id);
+  const allowFilters = !_.isEmpty(filters);
+
+  const byDefault = mergeObjects({ default: true });
+  const byId = mergeObjects({ _id });
+  const byFilters = mergeObjects(filters);
+
+  const or = compact([
+    allowId ? byId : undefined,
+    allowFilters ? byFilters : undefined,
+    allowDefault ? byDefault : undefined,
+  ]);
+  const filter = { $or: or };
+
+  // refs
+  const Priority = model(MODEL_NAME_PRIORITY);
+
+  // query
+  return Priority.findOne(filter)
+    .orFail()
     .exec(done);
 };
 
