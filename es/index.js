@@ -1,14 +1,43 @@
-import { pkg } from '@lykmapipo/common';
+import {
+  randomColor,
+  idOf,
+  mergeObjects,
+  compact,
+  pkg,
+} from '@lykmapipo/common';
+import { getString } from '@lykmapipo/env';
+import {
+  Router,
+  getFor,
+  schemaFor,
+  downloadFor,
+  postFor,
+  getByIdFor,
+  patchFor,
+  putFor,
+  deleteFor,
+} from '@lykmapipo/express-rest-actions';
 import _ from 'lodash';
-import { getString, getStrings } from '@lykmapipo/env';
-import { Router } from '@lykmapipo/express-common';
-import async from 'async';
-import randomColor from 'randomcolor';
-import mongoose from 'mongoose';
-import localize from 'mongoose-locale-schema';
+import { model, createSchema, ObjectId } from '@lykmapipo/mongoose-common';
+import {
+  localizedIndexesFor,
+  localize,
+  localizedKeysFor,
+  localizedValuesFor,
+} from 'mongoose-locale-schema';
 import actions from 'mongoose-rest-actions';
-import { schema, models } from '@codetanzania/majifix-common';
+import exportable from '@lykmapipo/mongoose-exportable';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
+import {
+  MODEL_NAME_PRIORITY,
+  checkDependenciesFor,
+  POPULATION_MAX_DEPTH,
+  COLLECTION_NAME_PRIORITY,
+  MODEL_NAME_SERVICEGROUP,
+  MODEL_NAME_SERVICE,
+  MODEL_NAME_SERVICEREQUEST,
+  PATH_NAME_PRIORITY,
+} from '@codetanzania/majifix-common';
 
 /**
  * @module Priority
@@ -18,7 +47,6 @@ import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
  * in order of their importance.
  *
  * @requires https://github.com/CodeTanzania/majifix-jurisdiction
- * @see {@link https://github.com/CodeTanzania/majifix-jurisdiction|Jurisdiction}
  * @author Benson Maruchu <benmaruchu@gmail.com>
  * @author lally elias <lallyelias87@gmail.com>
  *
@@ -28,34 +56,14 @@ import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
  * @public
  */
 
-const { Schema } = mongoose;
-const { ObjectId } = Schema.Types;
-
-/* local constants */
-const DEFAULT_LOCALE = getString('DEFAULT_L0CALE', 'en');
-const JURISDICTION_PATH = 'jurisdiction';
-const SCHEMA_OPTIONS = { timestamps: true, emitIndexErrors: true };
+/* constants */
+const OPTION_SELECT = { name: 1, color: 1 };
 const OPTION_AUTOPOPULATE = {
-  select: { name: 1, color: 1 },
-  maxDepth: schema.POPULATION_MAX_DEPTH,
+  select: OPTION_SELECT,
+  maxDepth: POPULATION_MAX_DEPTH,
 };
-const {
-  PRIORITY_MODEL_NAME,
-  SERVICEGROUP_MODEL_NAME,
-  SERVICE_MODEL_NAME,
-  SERVICEREQUEST_MODEL_NAME,
-  getModel,
-} = models;
-
-/* declarations */
-let locales = getStrings('LOCALES', ['en']);
-locales = _.map(locales, function cb(locale) {
-  const option = { name: locale };
-  if (locale === DEFAULT_LOCALE) {
-    option.required = true;
-  }
-  return option;
-});
+const SCHEMA_OPTIONS = { collection: COLLECTION_NAME_PRIORITY };
+const INDEX_UNIQUE = { jurisdiction: 1, ...localizedIndexesFor('name') };
 
 /**
  * @name PrioritySchema
@@ -64,7 +72,7 @@ locales = _.map(locales, function cb(locale) {
  * @version 1.0.0
  * @private
  */
-const PrioritySchema = new Schema(
+const PrioritySchema = createSchema(
   {
     /**
      * @name jurisdiction
@@ -91,7 +99,7 @@ const PrioritySchema = new Schema(
     jurisdiction: {
       type: ObjectId,
       ref: Jurisdiction.MODEL_NAME,
-      exists: true,
+      exists: { refresh: true, select: Jurisdiction.OPTION_SELECT },
       autopopulate: Jurisdiction.OPTION_AUTOPOPULATE,
       index: true,
     },
@@ -106,8 +114,9 @@ const PrioritySchema = new Schema(
      * @property {boolean} trim - force trimming
      * @property {boolean} required - mark required
      * @property {boolean} index - ensure database index
+     * @property {boolean} taggable - allow field use for tagging
+     * @property {boolean} exportable - allow field to be exported
      * @property {boolean} searchable - allow for searching
-     * @property {string[]}  locales - list of supported locales
      * @property {object} fake - fake data generator options
      *
      * @since 0.1.0
@@ -117,10 +126,10 @@ const PrioritySchema = new Schema(
     name: localize({
       type: String,
       trim: true,
-      required: true,
       index: true,
+      taggable: true,
+      exportable: true,
       searchable: true,
-      locales,
       fake: {
         generator: 'commerce',
         type: 'productName',
@@ -136,6 +145,7 @@ const PrioritySchema = new Schema(
      * @type {object}
      * @property {object} type - schema(data) type
      * @property {boolean} index - ensure database index
+     * @property {boolean} exportable - allow field to be exported
      * @property {boolean} default - default value set when none provided
      * @property {object} fake - fake data generator options
      *
@@ -146,6 +156,7 @@ const PrioritySchema = new Schema(
     weight: {
       type: Number,
       index: true,
+      exportable: true,
       default: 0,
       fake: true,
     },
@@ -159,6 +170,7 @@ const PrioritySchema = new Schema(
      * @property {object} type - schema(data) type
      * @property {boolean} trim - force trimming
      * @property {boolean} uppercase - force upper-casing
+     * @property {boolean} exportable - allow field to be exported
      * @property {boolean} default - default value set when none provided
      * @property {object} fake - fake data generator options
      *
@@ -169,14 +181,42 @@ const PrioritySchema = new Schema(
     color: {
       type: String,
       trim: true,
+      exportable: true,
       uppercase: true,
-      default() {
-        return randomColor().toUpperCase();
-      },
+      default: () => randomColor(),
+      fake: true,
+    },
+
+    /**
+     * @name default
+     * @description Tells whether a priority is the default.
+     *
+     * @type {object}
+     * @property {object} type - schema(data) type
+     * @property {boolean} index - ensure database index
+     * @property {boolean} exportable - allow field to be exported
+     * @property {boolean} default - default value set when none provided
+     * @property {object|boolean} fake - fake data generator options
+     *
+     * @author lally elias <lallyelias87@gmail.com>
+     * @since 0.1.0
+     * @version 0.1.0
+     * @instance
+     * @example
+     * false
+     *
+     */
+    default: {
+      type: Boolean,
+      index: true,
+      exportable: true,
+      default: false,
       fake: true,
     },
   },
-  SCHEMA_OPTIONS
+  SCHEMA_OPTIONS,
+  actions,
+  exportable
 );
 
 /*
@@ -185,13 +225,17 @@ const PrioritySchema = new Schema(
  *------------------------------------------------------------------------------
  */
 
-// ensure `unique` compound index on jurisdiction and name
-// to fix unique indexes on name in case they are used in more than
-// one jurisdiction with different administration
-_.forEach(locales, function cb(locale) {
-  const field = `name.${locale.name}`;
-  PrioritySchema.index({ jurisdiction: 1, [field]: 1 }, { unique: true });
-});
+/**
+ * @name index
+ * @description ensure unique compound index on priority name and jurisdiction
+ * to force unique priority definition
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @private
+ */
+PrioritySchema.index(INDEX_UNIQUE, { unique: true });
 
 /*
  *------------------------------------------------------------------------------
@@ -199,13 +243,16 @@ _.forEach(locales, function cb(locale) {
  *------------------------------------------------------------------------------
  */
 
-PrioritySchema.pre('validate', function cb(next) {
-  // set default color if not set
-  if (_.isEmpty(this.color)) {
-    this.color = randomColor().toUpperCase();
-  }
-
-  next();
+/**
+ * @name validate
+ * @description priority schema pre validation hook
+ * @param {function} done callback to invoke on success or error
+ * @since 0.1.0
+ * @version 1.0.0
+ * @private
+ */
+PrioritySchema.pre('validate', function preValidate(next) {
+  return this.preValidate(next);
 });
 
 /*
@@ -215,10 +262,28 @@ PrioritySchema.pre('validate', function cb(next) {
  */
 
 /**
+ * @name preValidate
+ * @description priority schema pre validation hook logic
+ * @param {function} done callback to invoke on success or error
+ * @since 0.1.0
+ * @version 1.0.0
+ * @instance
+ */
+PrioritySchema.methods.preValidate = function preValidate(done) {
+  // set default color if not set
+  if (_.isEmpty(this.color)) {
+    this.color = randomColor();
+  }
+
+  // continue
+  return done();
+};
+
+/**
  * @name beforeDelete
  * @function beforeDelete
  * @description pre delete priority logics
- * @param  {function} done callback to invoke on success or error
+ * @param {function} done callback to invoke on success or error
  *
  * @since 0.1.0
  * @version 1.0.0
@@ -227,172 +292,18 @@ PrioritySchema.pre('validate', function cb(next) {
 PrioritySchema.methods.beforeDelete = function beforeDelete(done) {
   // restrict delete if
 
-  async.parallel(
-    {
-      // 1...there are service groups use the priority
-      serviceGroup: function checkServiceGroupDependency(next) {
-        // get service group model
-        const ServiceGroup = getModel(SERVICEGROUP_MODEL_NAME);
+  // collect dependencies model name
+  const dependencies = [
+    MODEL_NAME_SERVICEGROUP,
+    MODEL_NAME_SERVICE,
+    MODEL_NAME_SERVICEREQUEST,
+  ];
 
-        // check service group dependency
-        if (ServiceGroup) {
-          ServiceGroup.count(
-            { priority: this._id }, // eslint-disable-line no-underscore-dangle
-            function cb(error, count) {
-              let cbError = error;
-              // warning can not delete
-              if (count && count > 0) {
-                const errorMessage = `Fail to Delete. ${count} service groups depend on it`;
-                cbError = new Error(errorMessage);
-              }
+  // path to check
+  const path = PATH_NAME_PRIORITY;
 
-              // ensure error status
-              if (cbError) {
-                cbError.status = 400;
-              }
-
-              // return
-              next(cbError, this);
-            }.bind(this)
-          );
-        }
-
-        // continue
-        else {
-          next();
-        }
-      }.bind(this),
-
-      // 1...there are services use the priority
-      service: function checkServiceDependency(next) {
-        // get service model
-        const Service = getModel(SERVICE_MODEL_NAME);
-
-        // check service dependency
-        if (Service) {
-          Service.count(
-            { priority: this._id }, // eslint-disable-line no-underscore-dangle
-            function cb(error, count) {
-              let cbError = error;
-              // warning can not delete
-              if (count && count > 0) {
-                const errorMessage = `Fail to Delete. ${count} services depend on it`;
-                cbError = new Error(errorMessage);
-              }
-
-              // ensure error status
-              if (cbError) {
-                cbError.status = 400;
-              }
-
-              // return
-              next(cbError, this);
-            }.bind(this)
-          );
-        }
-
-        // continue
-        else {
-          next();
-        }
-      }.bind(this),
-
-      // 1...there are service request use the priority
-      serviceRequest: function checkServiceRequestDependency(next) {
-        // get service request model
-        const ServiceRequest = getModel(SERVICEREQUEST_MODEL_NAME);
-
-        // check service request dependency
-        if (ServiceRequest) {
-          ServiceRequest.count(
-            { priority: this._id }, // eslint-disable-line no-underscore-dangle
-            function cb(error, count) {
-              let cbError = error;
-              // warning can not delete
-              if (count && count > 0) {
-                const errorMessage = `Fail to Delete. ${count} service requests depend on it`;
-                cbError = new Error(errorMessage);
-              }
-
-              // ensure error status
-              if (cbError) {
-                cbError.status = 400;
-              }
-
-              // return
-              next(cbError, this);
-            }.bind(this)
-          );
-        }
-
-        // continue
-        else {
-          next();
-        }
-      }.bind(this),
-    },
-    function cb(error) {
-      done(error, this);
-    }
-  );
-};
-
-/**
- * @name beforePost
- * @function beforePost
- * @description pre save priority logics
- * @param  {function} done callback to invoke on success or error
- *
- * @since 0.1.0
- * @version 1.0.0
- * @instance
- */
-PrioritySchema.methods.beforePost = function beforePost(done) {
-  // ensure jurisdiction is pre loaded before post(save)
-  const jurisdictionId = this.jurisdiction
-    ? this.jurisdiction._id // eslint-disable-line no-underscore-dangle
-    : this.jurisdiction;
-
-  // prefetch existing jurisdiction
-  if (jurisdictionId) {
-    Jurisdiction.getById(
-      jurisdictionId,
-      function cb(error, jurisdiction) {
-        // assign existing jurisdiction
-        if (jurisdiction) {
-          this.jurisdiction = jurisdiction;
-        }
-
-        // return
-        done(error, this);
-      }.bind(this)
-    );
-  }
-
-  // continue
-  else {
-    done();
-  }
-};
-
-/**
- * @name afterPost
- * @function afterPost
- * @description post save priority logics
- * @param  {function} done callback to invoke on success or error
- *
- * @since 0.1.0
- * @version 1.0.0
- * @instance
- */
-PrioritySchema.methods.afterPost = function afterPost(done) {
-  // ensure jurisdiction is populated after post(save)
-  const population = _.merge(
-    {},
-    { path: JURISDICTION_PATH },
-    Jurisdiction.OPTION_AUTOPOPULATE
-  );
-  this.populate(population, done);
+  // do check dependencies
+  return checkDependenciesFor(this, { path, dependencies }, done);
 };
 
 /*
@@ -401,46 +312,102 @@ PrioritySchema.methods.afterPost = function afterPost(done) {
  *------------------------------------------------------------------------------
  */
 
+/* static constants */
+PrioritySchema.statics.MODEL_NAME = MODEL_NAME_PRIORITY;
+PrioritySchema.statics.OPTION_SELECT = OPTION_SELECT;
+PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
+
 /**
  * @name findDefault
  * @function findDefault
  * @description find default priority
- * @param  {function} done a callback to invoke on success or failure
+ * @param {function} done a callback to invoke on success or failure
  * @return {Priority} default priority
  *
  * @since 0.1.0
  * @version 1.0.0
  * @static
+ * @deprecated
  */
-PrioritySchema.statics.findDefault = function findDefault(done) {
-  // reference priority
-  const Priority = this;
+PrioritySchema.statics.findDefault = done => {
+  // refs
+  const Priority = model(MODEL_NAME_PRIORITY);
 
-  // TODO use settings to set default priority
-  // TODO cache in memory
+  // obtain default priority
+  return Priority.getOneOrDefault({}, done);
+};
 
-  // sort priority by weight descending and take one
-  Priority.findOne()
-    .sort({ weight: 'asc' })
+/**
+ * @name prepareSeedCriteria
+ * @function prepareSeedCriteria
+ * @description define seed data criteria
+ * @param {Object} seed priority to be seeded
+ * @returns {Object} packed criteria for seeding
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 1.5.0
+ * @version 0.1.0
+ * @static
+ */
+PrioritySchema.statics.prepareSeedCriteria = seed => {
+  const names = localizedKeysFor('name');
+
+  const copyOfSeed = seed;
+  copyOfSeed.name = localizedValuesFor(seed.name);
+
+  const criteria = idOf(copyOfSeed)
+    ? _.pick(copyOfSeed, '_id')
+    : _.pick(copyOfSeed, 'jurisdiction', ...names);
+
+  return criteria;
+};
+
+/**
+ * @name getOneOrDefault
+ * @function getOneOrDefault
+ * @description Find existing priority or default based on given criteria
+ * @param {Object} criteria valid query criteria
+ * @param {Function} done callback to invoke on success or error
+ * @returns {Object|Error} found priority or error
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 1.5.0
+ * @version 0.1.0
+ * @static
+ * @example
+ *
+ * const criteria = { _id: '...'};
+ * Priority.getOneOrDefault(criteria, (error, found) => { ... });
+ *
+ */
+PrioritySchema.statics.getOneOrDefault = (criteria, done) => {
+  // normalize criteria
+  const { _id, ...filters } = mergeObjects(criteria);
+  const allowId = !_.isEmpty(_id);
+  const allowFilters = !_.isEmpty(filters);
+
+  const byDefault = mergeObjects({ default: true });
+  const byId = mergeObjects({ _id });
+  const byFilters = mergeObjects(filters);
+
+  const or = compact([
+    allowId ? byId : undefined,
+    allowFilters ? byFilters : undefined,
+    byDefault,
+  ]);
+  const filter = { $or: or };
+
+  // refs
+  const Priority = model(MODEL_NAME_PRIORITY);
+
+  // query
+  return Priority.findOne(filter)
+    .orFail()
     .exec(done);
 };
 
-/* expose static constants */
-PrioritySchema.statics.DEFAULT_LOCALE = DEFAULT_LOCALE;
-PrioritySchema.statics.MODEL_NAME = PRIORITY_MODEL_NAME;
-PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
-
-/*
- *------------------------------------------------------------------------------
- * Plugins
- *------------------------------------------------------------------------------
- */
-
-/* use mongoose rest actions */
-PrioritySchema.plugin(actions);
-
 /* export priority model */
-var Priority = mongoose.model(PRIORITY_MODEL_NAME, PrioritySchema);
+var Priority = model(MODEL_NAME_PRIORITY, PrioritySchema);
 
 /**
  * @apiDefine Priority Priority
@@ -457,10 +424,12 @@ var Priority = mongoose.model(PRIORITY_MODEL_NAME, PrioritySchema);
  * @public
  */
 
-/* local  constants */
+/* constants */
 const API_VERSION = getString('API_VERSION', '1.0.0');
-const PATH_LIST = '/priorities';
 const PATH_SINGLE = '/priorities/:id';
+const PATH_LIST = '/priorities';
+const PATH_EXPORT = '/priorities/export';
+const PATH_SCHEMA = '/priorities/schema/';
 const PATH_JURISDICTION = '/jurisdictions/:jurisdiction/priorities';
 
 /* declarations */
@@ -484,23 +453,49 @@ const router = new Router({
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.get(PATH_LIST, function getPriorities(request, response, next) {
-  // obtain request options
-  const options = _.merge({}, request.mquery);
+router.get(
+  PATH_LIST,
+  getFor({
+    get: (options, done) => Priority.get(options, done),
+  })
+);
 
-  Priority.get(options, function onGetPriorities(error, results) {
-    // forward error
-    if (error) {
-      next(error);
-    }
+/**
+ * @api {get} /priorities/schema Get Priority Schema
+ * @apiVersion 1.0.0
+ * @apiName GetPrioritySchema
+ * @apiGroup Priority
+ * @apiDescription Returns jurisdiction json schema definition
+ * @apiUse RequestHeaders
+ */
+router.get(
+  PATH_SCHEMA,
+  schemaFor({
+    getSchema: (query, done) => {
+      const jsonSchema = Priority.jsonSchema();
+      return done(null, jsonSchema);
+    },
+  })
+);
 
-    // handle response
-    else {
-      response.status(200);
-      response.json(results);
-    }
-  });
-});
+/**
+ * @api {get} /priorities/export Export Priorities
+ * @apiVersion 1.0.0
+ * @apiName ExportPriorities
+ * @apiGroup Priority
+ * @apiDescription Export priorities as csv
+ * @apiUse RequestHeaders
+ */
+router.get(
+  PATH_EXPORT,
+  downloadFor({
+    download: (options, done) => {
+      const fileName = `priorities_exports_${Date.now()}.csv`;
+      const readStream = Priority.exportCsv(options);
+      return done(null, { fileName, readStream });
+    },
+  })
+);
 
 /**
  * @api {post} /priorities Create New Priority
@@ -518,23 +513,12 @@ router.get(PATH_LIST, function getPriorities(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.post(PATH_LIST, function postPriority(request, response, next) {
-  //   obtain request body
-  const body = _.merge({}, request.body);
-
-  Priority.post(body, function onPostPriority(error, created) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(201);
-      response.json(created);
-    }
-  });
-});
+router.post(
+  PATH_LIST,
+  postFor({
+    post: (body, done) => Priority.post(body, done),
+  })
+);
 
 /**
  * @api {get} /priorities/:id Get Existing Priority
@@ -551,26 +535,12 @@ router.post(PATH_LIST, function postPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.get(PATH_SINGLE, function getPriority(request, response, next) {
-  // obtain request options
-  const options = _.merge({}, request.mquery);
-
-  // obtain priority id
-  options._id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  Priority.getById(options, function onGetPriority(error, found) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(found);
-    }
-  });
-});
+router.get(
+  PATH_SINGLE,
+  getByIdFor({
+    getById: (options, done) => Priority.getById(options, done),
+  })
+);
 
 /**
  * @api {patch} /priorities/:id Patch Existing Priority
@@ -588,26 +558,12 @@ router.get(PATH_SINGLE, function getPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.patch(PATH_SINGLE, function patchPriority(request, response, next) {
-  // obtain priority id
-  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  // obtain request body
-  const patches = _.merge({}, request.body);
-
-  Priority.patch(_id, patches, function onPatchPriority(error, patched) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(patched);
-    }
-  });
-});
+router.patch(
+  PATH_SINGLE,
+  patchFor({
+    patch: (options, done) => Priority.patch(options, done),
+  })
+);
 
 /**
  * @api {put} /priorities/:id Put Existing Priority
@@ -625,26 +581,12 @@ router.patch(PATH_SINGLE, function patchPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.put(PATH_SINGLE, function putPriority(request, response, next) {
-  // obtain priority id
-  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  // obtain request body
-  const updates = _.merge({}, request.body);
-
-  Priority.put(_id, updates, function onPutPriority(error, updated) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(updated);
-    }
-  });
-});
+router.put(
+  PATH_SINGLE,
+  putFor({
+    put: (options, done) => Priority.put(options, done),
+  })
+);
 
 /**
  * @api {delete} /priorities/:id Delete Priority
@@ -662,23 +604,13 @@ router.put(PATH_SINGLE, function putPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.delete(PATH_SINGLE, function deletePriority(request, response, next) {
-  // obtain priority id
-  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  Priority.del(_id, function onDeletePriority(error, deleted) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(deleted);
-    }
-  });
-});
+router.delete(
+  PATH_SINGLE,
+  deleteFor({
+    del: (options, done) => Priority.del(options, done),
+    soft: true,
+  })
+);
 
 /**
  * @api {get} /jurisdictions/:jurisdiction/priorities List Jurisdiction Priorities
@@ -696,25 +628,12 @@ router.delete(PATH_SINGLE, function deletePriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.get(PATH_JURISDICTION, function getPriorities(request, response, next) {
-  // obtain request options
-  const { jurisdiction } = request.params;
-  const filter = jurisdiction ? { filter: { jurisdiction } } : {}; // TODO support parent and no jurisdiction
-  const options = _.merge({}, filter, request.mquery);
-
-  Priority.get(options, function onGetPriorities(error, found) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(found);
-    }
-  });
-});
+router.get(
+  PATH_JURISDICTION,
+  getFor({
+    get: (options, done) => Priority.get(options, done),
+  })
+);
 
 /**
  * @name majifix-priority
