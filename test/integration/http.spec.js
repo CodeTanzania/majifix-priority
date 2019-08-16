@@ -1,17 +1,22 @@
 import request from 'supertest';
 import { app, mount } from '@lykmapipo/express-common';
-import { clear, expect } from '@lykmapipo/mongoose-test-helpers';
+import { clear, create, expect } from '@lykmapipo/mongoose-test-helpers';
+import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
 import { Priority, apiVersion, router } from '../../src/index';
 
 describe('Priority', () => {
   mount(router);
   describe('Rest API', () => {
-    before(done => clear(Priority, done));
+    before(done => clear(done));
 
     let priority;
+    const jurisdiction = Jurisdiction.fake();
+
+    before(done => create(jurisdiction, done));
 
     it('should handle HTTP POST on /priorities', done => {
       priority = Priority.fake();
+      priority.jurisdiction = jurisdiction;
 
       request(app)
         .post(`/${apiVersion}/priorities`)
@@ -56,7 +61,7 @@ describe('Priority', () => {
         });
     });
 
-    it('should handle HTTP GET on /priorities/id:', done => {
+    it('should handle HTTP GET on /priorities/:id', done => {
       request(app)
         .get(`/${apiVersion}/priorities/${priority._id}`)
         .set('Accept', 'application/json')
@@ -75,7 +80,29 @@ describe('Priority', () => {
         });
     });
 
-    it('should handle HTTP PATCH on /priorities/id:', done => {
+    it('should handle HTTP GET on /jurisdictions/:jurisdiction/priorities', done => {
+      request(app)
+        .get(`/${apiVersion}/jurisdictions/${jurisdiction._id}/priorities`)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end((error, response) => {
+          expect(error).to.not.exist;
+          expect(response).to.exist;
+
+          // assert payload
+          const result = response.body;
+          expect(result.data).to.exist;
+          expect(result.total).to.exist;
+          expect(result.limit).to.exist;
+          expect(result.skip).to.exist;
+          expect(result.page).to.exist;
+          expect(result.pages).to.exist;
+          expect(result.lastModified).to.exist;
+          done(error, response);
+        });
+    });
+
+    it('should handle HTTP PATCH on /priorities/:id', done => {
       const patch = priority.fakeOnly('name');
 
       request(app)
@@ -99,7 +126,7 @@ describe('Priority', () => {
         });
     });
 
-    it('should handle HTTP PUT on /priorities/id:', done => {
+    it('should handle HTTP PUT on /priorities/:id', done => {
       const put = priority.fakeOnly('name');
 
       request(app)
@@ -143,5 +170,5 @@ describe('Priority', () => {
         });
     });
   });
-  after(done => clear(Priority, done));
+  after(done => clear(done));
 });

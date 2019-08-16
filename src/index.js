@@ -18,8 +18,6 @@
  *
  * app.start();
  */
-
-/* dependencies */
 import { pkg } from '@lykmapipo/common';
 import router from './http.router';
 import Priority from './priority.model';

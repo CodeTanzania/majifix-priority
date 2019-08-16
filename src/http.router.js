@@ -107,17 +107,26 @@
  *      "lastModified": "Mon, 30 Apr 2018 12:33:58 GMT"
  *   }
  */
-
-/* dependencies */
-import _ from 'lodash';
 import { getString } from '@lykmapipo/env';
-import { Router } from '@lykmapipo/express-common';
+import {
+  getFor,
+  schemaFor,
+  downloadFor,
+  getByIdFor,
+  postFor,
+  patchFor,
+  putFor,
+  deleteFor,
+  Router,
+} from '@lykmapipo/express-rest-actions';
 import Priority from './priority.model';
 
-/* local  constants */
+/* constants */
 const API_VERSION = getString('API_VERSION', '1.0.0');
-const PATH_LIST = '/priorities';
 const PATH_SINGLE = '/priorities/:id';
+const PATH_LIST = '/priorities';
+const PATH_EXPORT = '/priorities/export';
+const PATH_SCHEMA = '/priorities/schema/';
 const PATH_JURISDICTION = '/jurisdictions/:jurisdiction/priorities';
 
 /* declarations */
@@ -141,23 +150,49 @@ const router = new Router({
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.get(PATH_LIST, function getPriorities(request, response, next) {
-  // obtain request options
-  const options = _.merge({}, request.mquery);
+router.get(
+  PATH_LIST,
+  getFor({
+    get: (options, done) => Priority.get(options, done),
+  })
+);
 
-  Priority.get(options, function onGetPriorities(error, results) {
-    // forward error
-    if (error) {
-      next(error);
-    }
+/**
+ * @api {get} /priorities/schema Get Priority Schema
+ * @apiVersion 1.0.0
+ * @apiName GetPrioritySchema
+ * @apiGroup Priority
+ * @apiDescription Returns jurisdiction json schema definition
+ * @apiUse RequestHeaders
+ */
+router.get(
+  PATH_SCHEMA,
+  schemaFor({
+    getSchema: (query, done) => {
+      const jsonSchema = Priority.jsonSchema();
+      return done(null, jsonSchema);
+    },
+  })
+);
 
-    // handle response
-    else {
-      response.status(200);
-      response.json(results);
-    }
-  });
-});
+/**
+ * @api {get} /priorities/export Export Priorities
+ * @apiVersion 1.0.0
+ * @apiName ExportPriorities
+ * @apiGroup Priority
+ * @apiDescription Export priorities as csv
+ * @apiUse RequestHeaders
+ */
+router.get(
+  PATH_EXPORT,
+  downloadFor({
+    download: (options, done) => {
+      const fileName = `priorities_exports_${Date.now()}.csv`;
+      const readStream = Priority.exportCsv(options);
+      return done(null, { fileName, readStream });
+    },
+  })
+);
 
 /**
  * @api {post} /priorities Create New Priority
@@ -175,23 +210,12 @@ router.get(PATH_LIST, function getPriorities(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.post(PATH_LIST, function postPriority(request, response, next) {
-  //   obtain request body
-  const body = _.merge({}, request.body);
-
-  Priority.post(body, function onPostPriority(error, created) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(201);
-      response.json(created);
-    }
-  });
-});
+router.post(
+  PATH_LIST,
+  postFor({
+    post: (body, done) => Priority.post(body, done),
+  })
+);
 
 /**
  * @api {get} /priorities/:id Get Existing Priority
@@ -208,26 +232,12 @@ router.post(PATH_LIST, function postPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.get(PATH_SINGLE, function getPriority(request, response, next) {
-  // obtain request options
-  const options = _.merge({}, request.mquery);
-
-  // obtain priority id
-  options._id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  Priority.getById(options, function onGetPriority(error, found) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(found);
-    }
-  });
-});
+router.get(
+  PATH_SINGLE,
+  getByIdFor({
+    getById: (options, done) => Priority.getById(options, done),
+  })
+);
 
 /**
  * @api {patch} /priorities/:id Patch Existing Priority
@@ -245,26 +255,12 @@ router.get(PATH_SINGLE, function getPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.patch(PATH_SINGLE, function patchPriority(request, response, next) {
-  // obtain priority id
-  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  // obtain request body
-  const patches = _.merge({}, request.body);
-
-  Priority.patch(_id, patches, function onPatchPriority(error, patched) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(patched);
-    }
-  });
-});
+router.patch(
+  PATH_SINGLE,
+  patchFor({
+    patch: (options, done) => Priority.patch(options, done),
+  })
+);
 
 /**
  * @api {put} /priorities/:id Put Existing Priority
@@ -282,26 +278,12 @@ router.patch(PATH_SINGLE, function patchPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.put(PATH_SINGLE, function putPriority(request, response, next) {
-  // obtain priority id
-  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  // obtain request body
-  const updates = _.merge({}, request.body);
-
-  Priority.put(_id, updates, function onPutPriority(error, updated) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(updated);
-    }
-  });
-});
+router.put(
+  PATH_SINGLE,
+  putFor({
+    put: (options, done) => Priority.put(options, done),
+  })
+);
 
 /**
  * @api {delete} /priorities/:id Delete Priority
@@ -319,23 +301,13 @@ router.put(PATH_SINGLE, function putPriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.delete(PATH_SINGLE, function deletePriority(request, response, next) {
-  // obtain priority id
-  const _id = request.params.id; // eslint-disable-line no-underscore-dangle
-
-  Priority.del(_id, function onDeletePriority(error, deleted) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(deleted);
-    }
-  });
-});
+router.delete(
+  PATH_SINGLE,
+  deleteFor({
+    del: (options, done) => Priority.del(options, done),
+    soft: true,
+  })
+);
 
 /**
  * @api {get} /jurisdictions/:jurisdiction/priorities List Jurisdiction Priorities
@@ -353,25 +325,12 @@ router.delete(PATH_SINGLE, function deletePriority(request, response, next) {
  * @apiUse AuthorizationHeaderError
  * @apiUse AuthorizationHeaderErrorExample
  */
-router.get(PATH_JURISDICTION, function getPriorities(request, response, next) {
-  // obtain request options
-  const { jurisdiction } = request.params;
-  const filter = jurisdiction ? { filter: { jurisdiction } } : {}; // TODO support parent and no jurisdiction
-  const options = _.merge({}, filter, request.mquery);
-
-  Priority.get(options, function onGetPriorities(error, found) {
-    // forward error
-    if (error) {
-      next(error);
-    }
-
-    // handle response
-    else {
-      response.status(200);
-      response.json(found);
-    }
-  });
-});
+router.get(
+  PATH_JURISDICTION,
+  getFor({
+    get: (options, done) => Priority.get(options, done),
+  })
+);
 
 /* expose router */
 export default router;
