@@ -95,8 +95,9 @@ const PrioritySchema = createSchema(
      * @property {boolean} trim - force trimming
      * @property {boolean} required - mark required
      * @property {boolean} index - ensure database index
+     * @property {boolean} taggable - allow field use for tagging
+     * @property {boolean} exportable - allow field to be exported
      * @property {boolean} searchable - allow for searching
-     * @property {string[]}  locales - list of supported locales
      * @property {object} fake - fake data generator options
      *
      * @since 0.1.0
@@ -107,9 +108,9 @@ const PrioritySchema = createSchema(
       type: String,
       trim: true,
       index: true,
-      searchable: true,
       taggable: true,
       exportable: true,
+      searchable: true,
       fake: {
         generator: 'commerce',
         type: 'productName',
@@ -125,6 +126,7 @@ const PrioritySchema = createSchema(
      * @type {object}
      * @property {object} type - schema(data) type
      * @property {boolean} index - ensure database index
+     * @property {boolean} exportable - allow field to be exported
      * @property {boolean} default - default value set when none provided
      * @property {object} fake - fake data generator options
      *
@@ -135,6 +137,7 @@ const PrioritySchema = createSchema(
     weight: {
       type: Number,
       index: true,
+      exportable: true,
       default: 0,
       fake: true,
     },
@@ -148,6 +151,7 @@ const PrioritySchema = createSchema(
      * @property {object} type - schema(data) type
      * @property {boolean} trim - force trimming
      * @property {boolean} uppercase - force upper-casing
+     * @property {boolean} exportable - allow field to be exported
      * @property {boolean} default - default value set when none provided
      * @property {object} fake - fake data generator options
      *
@@ -158,6 +162,7 @@ const PrioritySchema = createSchema(
     color: {
       type: String,
       trim: true,
+      exportable: true,
       uppercase: true,
       default: () => randomColor(),
       fake: true,
@@ -170,6 +175,7 @@ const PrioritySchema = createSchema(
      * @type {object}
      * @property {object} type - schema(data) type
      * @property {boolean} index - ensure database index
+     * @property {boolean} exportable - allow field to be exported
      * @property {boolean} default - default value set when none provided
      * @property {object|boolean} fake - fake data generator options
      *
