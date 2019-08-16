@@ -1,34 +1,13 @@
-'use strict';
+import { connect, clear, drop } from '@lykmapipo/mongoose-test-helpers';
 
-
-process.env.NODE_ENV = 'test';
-
-
-/* dependencies */
-const mongoose = require('mongoose');
-const MONGODB_URI = 'mongodb://localhost/majifix-priority';
-
-
-/* clean and restore database */
-const wipe = done => {
-  if (mongoose.connection && mongoose.connection.dropDatabase) {
-    mongoose.connection.dropDatabase(done);
-  } else {
-    done();
-  }
-};
-
+process.env.DEFAULT_LOCALE = 'en';
+process.env.LOCALES = 'en,sw';
 
 /* setup database */
-before(done => {
-  const options = { useNewUrlParser: true };
-  mongoose.connect(MONGODB_URI, options, done);
-});
-
+before(done => connect(done));
 
 /* clear database */
-before(wipe);
+before(done => clear(done));
 
-
-/* clear database */
-after(wipe);
+/* drop database */
+after(done => drop(done));
