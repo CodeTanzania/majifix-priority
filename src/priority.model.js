@@ -17,9 +17,8 @@
  */
 import _ from 'lodash';
 import { randomColor } from '@lykmapipo/common';
-import { getString, getStrings } from '@lykmapipo/env';
 import { createSchema, model, ObjectId } from '@lykmapipo/mongoose-common';
-import { localize } from 'mongoose-locale-schema';
+import { localize, localizedIndexesFor } from 'mongoose-locale-schema';
 import actions from 'mongoose-rest-actions';
 import exportable from '@lykmapipo/mongoose-exportable';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
@@ -35,23 +34,13 @@ import {
 } from '@codetanzania/majifix-common';
 
 /* constants */
-const DEFAULT_LOCALE = getString('DEFAULT_L0CALE', 'en');
 const OPTION_SELECT = { name: 1, color: 1 };
 const OPTION_AUTOPOPULATE = {
   select: OPTION_SELECT,
   maxDepth: POPULATION_MAX_DEPTH,
 };
 const SCHEMA_OPTIONS = { collection: COLLECTION_NAME_PRIORITY };
-
-/* declarations */
-let locales = getStrings('LOCALES', ['en']);
-locales = _.map(locales, function cb(locale) {
-  const option = { name: locale };
-  if (locale === DEFAULT_LOCALE) {
-    option.required = true;
-  }
-  return option;
-});
+const INDEX_UNIQUE = { jurisdiction: 1, ...localizedIndexesFor('name') };
 
 /**
  * @name PrioritySchema
@@ -169,6 +158,32 @@ const PrioritySchema = createSchema(
       default: () => randomColor(),
       fake: true,
     },
+
+    /**
+     * @name default
+     * @description Tells whether a priority is the default.
+     *
+     * @type {object}
+     * @property {object} type - schema(data) type
+     * @property {boolean} index - ensure database index
+     * @property {boolean} default - default value set when none provided
+     * @property {object|boolean} fake - fake data generator options
+     *
+     * @author lally elias <lallyelias87@gmail.com>
+     * @since 0.1.0
+     * @version 0.1.0
+     * @instance
+     * @example
+     * false
+     *
+     */
+    default: {
+      type: Boolean,
+      index: true,
+      exportable: true,
+      default: false,
+      fake: true,
+    },
   },
   SCHEMA_OPTIONS,
   actions,
@@ -181,13 +196,17 @@ const PrioritySchema = createSchema(
  *------------------------------------------------------------------------------
  */
 
-// ensure `unique` compound index on jurisdiction and name
-// to fix unique indexes on name in case they are used in more than
-// one jurisdiction with different administration
-_.forEach(locales, function cb(locale) {
-  const field = `name.${locale.name}`;
-  PrioritySchema.index({ jurisdiction: 1, [field]: 1 }, { unique: true });
-});
+/**
+ * @name index
+ * @description ensure unique compound index on priority name and jurisdiction
+ * to force unique priority definition
+ *
+ * @author lally elias <lallyelias87@gmail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ * @private
+ */
+PrioritySchema.index(INDEX_UNIQUE, { unique: true });
 
 /*
  *------------------------------------------------------------------------------
@@ -195,8 +214,16 @@ _.forEach(locales, function cb(locale) {
  *------------------------------------------------------------------------------
  */
 
+/**
+ * @name validate
+ * @description priority schema pre validation hook
+ * @param {function} done callback to invoke on success or error
+ * @since 0.1.0
+ * @version 1.0.0
+ * @private
+ */
 PrioritySchema.pre('validate', function preValidate(next) {
-  this.preValidate(next);
+  return this.preValidate(next);
 });
 
 /*
@@ -220,14 +247,14 @@ PrioritySchema.methods.preValidate = function preValidate(done) {
   }
 
   // continue
-  done();
+  return done();
 };
 
 /**
  * @name beforeDelete
  * @function beforeDelete
  * @description pre delete priority logics
- * @param  {function} done callback to invoke on success or error
+ * @param {function} done callback to invoke on success or error
  *
  * @since 0.1.0
  * @version 1.0.0
@@ -256,11 +283,16 @@ PrioritySchema.methods.beforeDelete = function beforeDelete(done) {
  *------------------------------------------------------------------------------
  */
 
+/* static constants */
+PrioritySchema.statics.MODEL_NAME = MODEL_NAME_PRIORITY;
+PrioritySchema.statics.OPTION_SELECT = OPTION_SELECT;
+PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
+
 /**
  * @name findDefault
  * @function findDefault
  * @description find default priority
- * @param  {function} done a callback to invoke on success or failure
+ * @param {function} done a callback to invoke on success or failure
  * @return {Priority} default priority
  *
  * @since 0.1.0
@@ -275,15 +307,10 @@ PrioritySchema.statics.findDefault = function findDefault(done) {
   // TODO cache in memory
 
   // sort priority by weight descending and take one
-  Priority.findOne()
+  return Priority.findOne()
     .sort({ weight: 'asc' })
     .exec(done);
 };
-
-/* expose static constants */
-PrioritySchema.statics.DEFAULT_LOCALE = DEFAULT_LOCALE;
-PrioritySchema.statics.MODEL_NAME = MODEL_NAME_PRIORITY;
-PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
 
 /* export priority model */
 export default model(MODEL_NAME_PRIORITY, PrioritySchema);
