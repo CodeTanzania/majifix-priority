@@ -162,7 +162,7 @@ router.get(
  * @apiVersion 1.0.0
  * @apiName GetPrioritySchema
  * @apiGroup Priority
- * @apiDescription Returns jurisdiction json schema definition
+ * @apiDescription Returns priority json schema definition
  * @apiUse RequestHeaders
  */
 router.get(
