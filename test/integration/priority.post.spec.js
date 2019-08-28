@@ -2,13 +2,6 @@ import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
 import { clear, create, expect } from '@lykmapipo/mongoose-test-helpers';
 import { Priority } from '../../src/index';
 
-// describe('Priority', () => {
-//   const jurisdiction = Jurisdiction.fake();
-
-//   before(done => clear(Jurisdiction, Priority, done));
-
-//   before(done => create(jurisdiction, done));
-
 describe('Priority Static post', () => {
   const jurisdiction = Jurisdiction.fake();
 
