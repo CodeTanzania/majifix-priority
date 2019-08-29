@@ -1,19 +1,3 @@
-/**
- * @module Priority
- * @name Priority
- * @description A representation an entity which provides a way
- * to prioritize service and service request(issues)
- * in order of their importance.
- *
- * @requires https://github.com/CodeTanzania/majifix-jurisdiction
- * @author Benson Maruchu <benmaruchu@gmail.com>
- * @author lally elias <lallyelias87@gmail.com>
- *
- * @license MIT
- * @since 0.1.0
- * @version 1.0.0
- * @public
- */
 import _ from 'lodash';
 import { idOf, randomColor, compact, mergeObjects } from '@lykmapipo/common';
 import { createSchema, model, ObjectId } from '@lykmapipo/mongoose-common';
@@ -47,11 +31,20 @@ const SCHEMA_OPTIONS = { collection: COLLECTION_NAME_PRIORITY };
 const INDEX_UNIQUE = { jurisdiction: 1, ...localizedIndexesFor('name') };
 
 /**
- * @name PrioritySchema
- * @type {Schema}
+ * @module Priority
+ * @name Priority
+ * @description A representation an entity which provides a way
+ * to prioritize service and service request(issues)
+ * in order of their importance.
+ *
+ * @requires https://github.com/CodeTanzania/majifix-jurisdiction
+ * @author Benson Maruchu <benmaruchu@gmail.com>
+ * @author lally elias <lallyelias87@gmail.com>
+ *
+ * @license MIT
  * @since 0.1.0
  * @version 1.0.0
- * @private
+ * @public
  */
 const PrioritySchema = createSchema(
   {
@@ -228,6 +221,7 @@ PrioritySchema.index(INDEX_UNIQUE, { unique: true });
  * @name validate
  * @description priority schema pre validation hook
  * @param {Function} done callback to invoke on success or error
+ * @returns {object|Error} valid instance or error
  * @since 0.1.0
  * @version 1.0.0
  * @private
@@ -246,6 +240,7 @@ PrioritySchema.pre('validate', function preValidate(next) {
  * @name preValidate
  * @description priority schema pre validation hook logic
  * @param {Function} done callback to invoke on success or error
+ * @returns {object|Error} valid instance or error
  * @since 0.1.0
  * @version 1.0.0
  * @instance
@@ -257,7 +252,7 @@ PrioritySchema.methods.preValidate = function preValidate(done) {
   }
 
   // continue
-  return done();
+  return done(null, this);
 };
 
 /**
@@ -265,7 +260,7 @@ PrioritySchema.methods.preValidate = function preValidate(done) {
  * @function beforeDelete
  * @description pre delete priority logics
  * @param {Function} done callback to invoke on success or error
- *
+ * @returns {object|Error} valid instance or error
  * @since 0.1.0
  * @version 1.0.0
  * @instance
