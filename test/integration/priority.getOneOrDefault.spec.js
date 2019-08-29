@@ -1,5 +1,5 @@
 import { expect, clear } from '@lykmapipo/mongoose-test-helpers';
-import { Priority } from '../../src/index';
+import { Priority } from '../../src';
 
 describe('Priority getOneOrDefault', () => {
   before(done => clear(done));
