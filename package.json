@@ -28,8 +28,11 @@
     "codetanzania",
     "majifix",
     "majifix-module",
+    "open311",
     "priority",
-    "open311"
+    "severity",
+    "flag",
+    "label"
   ],
   "contributors": [
     {
