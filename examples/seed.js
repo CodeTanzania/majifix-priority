@@ -1,14 +1,13 @@
 const _ = require('lodash');
 const { waterfall } = require('async');
-const { connect } = require('@lykmapipo/mongoose-common');
+const { connect, clear } = require('@lykmapipo/mongoose-common');
 const { Jurisdiction } = require('@codetanzania/majifix-jurisdiction');
 const { Priority } = require('../lib');
 
-// track seeding time
+/* track seeding time */
 let seedStart;
 let seedEnd;
 
-/* eslint-disable */
 const log = (stage, error, results) => {
   if (error) {
     console.error(`${stage} seed error`, error);
@@ -19,51 +18,40 @@ const log = (stage, error, results) => {
     console.info(`${stage} seed result`, val);
   }
 };
-/* eslint-enable */
 
-connect(err => {
-  if (err) {
-    throw err;
-  }
+const clearSeed = next => clear(Priority, Jurisdiction, () => next());
 
-  waterfall(
-    [
-      function clearPriority(next) {
-        Priority.deleteMany(() => next());
-      },
+const seedJurisdiction = next => Jurisdiction.fake().post(next);
 
-      function clearJurisdiction(next) {
-        Jurisdiction.deleteMany(() => next());
-      },
+const seedPriority = (jurisdiction, next) => {
+  let priorities = Priority.fake(50);
 
-      function seedJurisdiction(next) {
-        const jurisdiction = Jurisdiction.fake();
-        jurisdiction.post(next);
-      },
+  priorities = _.forEach(priorities, priority => {
+    priority.set({ jurisdiction });
+    return priority;
+  });
 
-      function seedPriority(jurisdiction, next) {
-        seedStart = Date.now();
-        let priorities = Priority.fake(50);
+  Priority.create(priorities, next);
+};
 
-        priorities = _.forEach(priorities, priority => {
-          const sample = priority;
-          sample.jurisdiction = jurisdiction;
-          return sample;
-        });
-
-        Priority.create(priorities, next);
-      },
-    ],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-
-      seedEnd = Date.now();
-
-      log('time', null, seedEnd - seedStart);
-      log('final', error, results);
-      process.exit(0);
+const seed = () => {
+  seedEnd = Date.now();
+  waterfall([clearSeed, seedJurisdiction, seedPriority], (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    seedEnd = Date.now();
+
+    log('time', null, seedEnd - seedStart);
+    log('final', error, results);
+    process.exit(0);
+  });
+};
+
+// connect and seed
+connect(error => {
+  if (error) {
+    throw error;
+  }
+  seed();
 });
