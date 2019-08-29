@@ -29,16 +29,14 @@ npm install @codetanzania/majifix-priority --save
 ## Usage
 
 ```js
-const mongoose = require('mongoose');
-const { app } = require('@codetanzania/majifix-priority');
+import { connect } from '@lykmapipo/mongoose-common';
+import { Priority, start } from '@codetanzania/majifix-status';
 
-//connect to mongodb
-mongoose.connect(process.env.MONGODB_URI);
+// connect to mongodb
+connect(process.env.MONGODB_URI, error => { ... });
 
-//fire the app
-app.start(function(error, env) {
-  ...
-});
+// fire http server
+start(error => { ... });
 ```
 
 ## Testing
