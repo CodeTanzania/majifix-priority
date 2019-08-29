@@ -87,12 +87,7 @@
     "mongoose": "5.6.11",
     "nyc": "^14.1.1",
     "prettier": "1.18.2",
-    "rimraf": "3.0.0",
-    "rollup": "1.20.3",
-    "sinon": "7.4.1",
-    "sinon-chai": "3.3.0",
-    "sinon-mongoose": "2.3.0",
-    "supertest": "4.0.2"
+    "rimraf": "3.0.0"
   },
   "peerDependencies": {
     "mongoose": ">=5.6.11"
@@ -111,10 +106,8 @@
     "express": ">=4.17.1",
     "lodash": ">=4.17.15",
     "moment": ">=2.24.0",
-    "mongoose-geojson-schemas": ">=0.10.9",
     "mongoose-locale-schema": ">=0.4.0",
-    "mongoose-rest-actions": ">=0.28.8",
-    "randomcolor": ">=0.5.4"
+    "mongoose-rest-actions": ">=0.28.8"
   },
   "config": {
     "commitizen": {
