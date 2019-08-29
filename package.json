@@ -1,6 +1,6 @@
 {
   "name": "@codetanzania/majifix-priority",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "A representation an entity which provides a way to prioritize service and service request(issues) in order of their importance.",
   "main": "lib/index.js",
   "module": "es/index.js",
