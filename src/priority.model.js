@@ -227,7 +227,7 @@ PrioritySchema.index(INDEX_UNIQUE, { unique: true });
 /**
  * @name validate
  * @description priority schema pre validation hook
- * @param {function} done callback to invoke on success or error
+ * @param {Function} done callback to invoke on success or error
  * @since 0.1.0
  * @version 1.0.0
  * @private
@@ -245,7 +245,7 @@ PrioritySchema.pre('validate', function preValidate(next) {
 /**
  * @name preValidate
  * @description priority schema pre validation hook logic
- * @param {function} done callback to invoke on success or error
+ * @param {Function} done callback to invoke on success or error
  * @since 0.1.0
  * @version 1.0.0
  * @instance
@@ -264,7 +264,7 @@ PrioritySchema.methods.preValidate = function preValidate(done) {
  * @name beforeDelete
  * @function beforeDelete
  * @description pre delete priority logics
- * @param {function} done callback to invoke on success or error
+ * @param {Function} done callback to invoke on success or error
  *
  * @since 0.1.0
  * @version 1.0.0
@@ -302,8 +302,8 @@ PrioritySchema.statics.OPTION_AUTOPOPULATE = OPTION_AUTOPOPULATE;
  * @name findDefault
  * @function findDefault
  * @description find default priority
- * @param {function} done a callback to invoke on success or failure
- * @return {Priority} default priority
+ * @param {Function} done a callback to invoke on success or failure
+ * @returns {Priority} default priority
  *
  * @since 0.1.0
  * @version 1.0.0
@@ -322,8 +322,8 @@ PrioritySchema.statics.findDefault = done => {
  * @name prepareSeedCriteria
  * @function prepareSeedCriteria
  * @description define seed data criteria
- * @param {Object} seed priority to be seeded
- * @returns {Object} packed criteria for seeding
+ * @param {object} seed priority to be seeded
+ * @returns {object} packed criteria for seeding
  *
  * @author lally elias <lallyelias87@gmail.com>
  * @since 1.5.0
@@ -347,9 +347,9 @@ PrioritySchema.statics.prepareSeedCriteria = seed => {
  * @name getOneOrDefault
  * @function getOneOrDefault
  * @description Find existing priority or default based on given criteria
- * @param {Object} criteria valid query criteria
+ * @param {object} criteria valid query criteria
  * @param {Function} done callback to invoke on success or error
- * @returns {Object|Error} found priority or error
+ * @returns {object|Error} found priority or error
  *
  * @author lally elias <lallyelias87@gmail.com>
  * @since 1.5.0
