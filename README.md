@@ -1,9 +1,15 @@
 # majifix-priority
 
 [![Build Status](https://travis-ci.org/CodeTanzania/majifix-priority.svg?branch=develop)](https://travis-ci.org/CodeTanzania/majifix-priority)
-[![Dependencies Status](https://david-dm.org/CodeTanzania/majifix-priority/status.svg?style=flat-square)](https://david-dm.org/CodeTanzania/majifix-priority)
-[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
+[![Dependencies Status](https://david-dm.org/CodeTanzania/majifix-priority.svg)](https://david-dm.org/CodeTanzania/majifix-priority)
+[![Coverage Status](https://coveralls.io/repos/github/CodeTanzania/majifix-priority/badge.svg?branch=develop)](https://coveralls.io/github/CodeTanzania/majifix-priority?branch=develop)
+[![GitHub License](https://img.shields.io/github/license/CodeTanzania/majifix-priority)](https://github.com/CodeTanzania/majifix-priority/blob/develop/LICENSE)
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/CodeTanzania/majifix-priority/tree/develop)
+
+[![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![Code Style](https://badgen.net/badge/code%20style/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
+[![npm version](https://img.shields.io/npm/v/@codetanzania/majifix-priority)](https://www.npmjs.com/package/@codetanzania/majifix-priority)
 
 A representation an entity which provides a way to prioritize service and service request(issues) in order of their importance.
 
