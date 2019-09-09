@@ -1,6 +1,6 @@
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
 import { clear, create, expect } from '@lykmapipo/mongoose-test-helpers';
-import { Priority } from '../../src/index';
+import { Priority } from '../../src';
 
 describe('Priority Static Delete', () => {
   before(done => clear(done));

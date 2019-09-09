@@ -1,3 +1,70 @@
+#### 1.6.0 (2019-08-29)
+
+##### Chores
+
+- **deps:**
+  - remove unused ([dca11532](https://github.com/CodeTanzania/majifix-priority/commit/dca1153245365dc7920739a6a5cf53540504ebd3))
+  - force latest version & audit fix ([6b8aab8e](https://github.com/CodeTanzania/majifix-priority/commit/6b8aab8effacf0b37959f91f0d1ba67e9b9aa13a))
+  - force latest version & audit fix ([3cc23a22](https://github.com/CodeTanzania/majifix-priority/commit/3cc23a22643cfb902916a0bf3e20e115ace6ca75))
+  - update dependency rollup to v1.20.3 ([5e239a22](https://github.com/CodeTanzania/majifix-priority/commit/5e239a22e02c1471ff1517dc149dc72198ac9141))
+  - update dependency lint-staged to v9.2.5 ([7b3a3c76](https://github.com/CodeTanzania/majifix-priority/commit/7b3a3c762bd0028c7f0aa3ac8b8e7793c3d0b5d7))
+  - update dependency mongoose to v5.6.11 ([3dfea462](https://github.com/CodeTanzania/majifix-priority/commit/3dfea462e65c158042b7d39f9d34621da0be4801))
+  - update dependency lint-staged to v9.2.4 ([cd5b1a36](https://github.com/CodeTanzania/majifix-priority/commit/cd5b1a360d622256779fa9f67cb85010e08b590b))
+  - update dependency rollup to v1.20.2 ([64851d88](https://github.com/CodeTanzania/majifix-priority/commit/64851d882652c7b64ddeadb42cbd4c02d0c3a004))
+  - update dependency eslint to v6.2.2 ([4ab1cb5b](https://github.com/CodeTanzania/majifix-priority/commit/4ab1cb5bffd03760847e49311270ab7ca17ab888))
+  - add express-test-helpers lib ([5ca1d8a3](https://github.com/CodeTanzania/majifix-priority/commit/5ca1d8a3a467fe6be9ba38d60cfc1b89b35191ff))
+  - update dependency rollup to v1.20.1 ([0ccd9812](https://github.com/CodeTanzania/majifix-priority/commit/0ccd9812a02ef78a6ed72c0bda7ea379c1595fc6))
+  - update dependency eslint-plugin-mocha to v6.1.0 ([25e652e4](https://github.com/CodeTanzania/majifix-priority/commit/25e652e445b53684efd691d801e2e1ef95874dbf))
+  - update dependency rollup to v1.20.0 ([e5340ddb](https://github.com/CodeTanzania/majifix-priority/commit/e5340ddb04af8aa86f4766c3927fcb4e0a2421bc))
+  - update dependency mongoose to v5.6.10 ([b2d2eea5](https://github.com/CodeTanzania/majifix-priority/commit/b2d2eea58ef78917ef4f20b3e0dcfd1ccc447384))
+  - update dependency eslint to v6.2.1 ([46f6b0d8](https://github.com/CodeTanzania/majifix-priority/commit/46f6b0d8b7a343e2edb6bee9cb423dd1d6a0c27f))
+- update package keywords ([b84a5a13](https://github.com/CodeTanzania/majifix-priority/commit/b84a5a1318b5648a579c0a0991481c96b610b958))
+- rememove unused apidocs ([695715a6](https://github.com/CodeTanzania/majifix-priority/commit/695715a624fa875eba226a47a8f92416b44b3b56))
+- **examples:** improve sample app and seed ([bd9ee4d8](https://github.com/CodeTanzania/majifix-priority/commit/bd9ee4d8c8a3fd2a71fe55e02a3c2309e3d3531d))
+- **configs:**
+  - update eslint configs ([d628381c](https://github.com/CodeTanzania/majifix-priority/commit/d628381c768800b8a5ee1bee7bbddc215505fa4c))
+  - update prettier configs ([caa0634a](https://github.com/CodeTanzania/majifix-priority/commit/caa0634a3f709456e085219d1a733333545b48c6))
+  - update npm files ([1bbf194b](https://github.com/CodeTanzania/majifix-priority/commit/1bbf194b210400010bd3a991d77974ccbb9b88b0))
+  - update git files ([216f56f4](https://github.com/CodeTanzania/majifix-priority/commit/216f56f4d9a1de85aefb1643adb47a6f7dc85d0a))
+  - update editor configs ([3a553cf8](https://github.com/CodeTanzania/majifix-priority/commit/3a553cf8e95109ce961eefc7f986a13627e1949b))
+- **ci:** update travis configs ([5ac925b8](https://github.com/CodeTanzania/majifix-priority/commit/5ac925b803a4f3ac319fc66e626d1a28add63ad7))
+- **router:** rename priority router file ([0f7ae7c5](https://github.com/CodeTanzania/majifix-priority/commit/0f7ae7c55b8bce3ece0845b3067428c6916031d6))
+
+##### Documentation Changes
+
+- remove year from license ([8634446e](https://github.com/CodeTanzania/majifix-priority/commit/8634446eea2b257712323e9e491f11a220f1350b))
+- update usage docs ([b137022a](https://github.com/CodeTanzania/majifix-priority/commit/b137022aa2cc6d6bff54ce149da313ec51f2b32d))
+- update requirements version ([e07f82a0](https://github.com/CodeTanzania/majifix-priority/commit/e07f82a0bbf2f00ee0e66a39be60386f689f0af2))
+- update statuses badge ([5cf5806d](https://github.com/CodeTanzania/majifix-priority/commit/5cf5806d75f3f9d486431b3c4efc5f3dfb2d47b0))
+- improve contributing guide ([09a4b0aa](https://github.com/CodeTanzania/majifix-priority/commit/09a4b0aa4c044d40cc8edf545cc3525cbd755fab))
+- update contributor guide and code of conduct ([0c250702](https://github.com/CodeTanzania/majifix-priority/commit/0c250702d77203f5ffbb5bd6b488e988d12bc678))
+- **changelog:** generate latest release notes ([fd65b0b6](https://github.com/CodeTanzania/majifix-priority/commit/fd65b0b63527a53fbd5d31d362ca24cbad980a13))
+
+##### New Features
+
+- ensure values for all name locales ([ccb6ab8f](https://github.com/CodeTanzania/majifix-priority/commit/ccb6ab8fb1967bd06f254c60e8a25eb34ebf0f16))
+
+##### Refactors
+
+- **router:** extract apidoc ([0a172723](https://github.com/CodeTanzania/majifix-priority/commit/0a172723df941d497e50856abf55393a1115cedc))
+- **src:** implement to support test normalize ([9f484c0c](https://github.com/CodeTanzania/majifix-priority/commit/9f484c0c3bb717d4e331907311203f6e8b0c0530))
+
+##### Code Style Changes
+
+- **model:**
+  - add missing jsdocs ([b98c1746](https://github.com/CodeTanzania/majifix-priority/commit/b98c174614a19709293eb1636a2bfa7c4e509c89))
+  - normalize jsdocs ([9723526f](https://github.com/CodeTanzania/majifix-priority/commit/9723526f4a8dbf561541f63591c5c2af094ff4a6))
+- improve main jsdocs ([11c39f52](https://github.com/CodeTanzania/majifix-priority/commit/11c39f52784be2d920d53eea3ffb1f86e6e9fde1))
+- **router:** add jsdocs ([0ddece50](https://github.com/CodeTanzania/majifix-priority/commit/0ddece50a510740f90fbef18f9c25c801ce76239))
+
+##### Tests
+
+- **integration:**
+  - rename file and restructure test ([4e685280](https://github.com/CodeTanzania/majifix-priority/commit/4e6852801f5296aa594086f7db4ffddc34343931))
+  - normalize tests ([7d481819](https://github.com/CodeTanzania/majifix-priority/commit/7d481819635f47ec663646f45304402d4cc31be3))
+  - normalize priority delete ([84ad7f63](https://github.com/CodeTanzania/majifix-priority/commit/84ad7f634effd416ec23c13916de3a735078c95b))
+- **unit:** normalize test on schema ([45eaa5b8](https://github.com/CodeTanzania/majifix-priority/commit/45eaa5b848965e71e076fd1c93805866c39d7db0))
+
 #### 1.5.1 (2019-08-20)
 
 #### 1.5.0 (2019-08-16)

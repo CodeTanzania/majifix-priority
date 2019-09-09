@@ -8,7 +8,7 @@ import {
   create,
 } from '@lykmapipo/mongoose-test-helpers';
 import { Jurisdiction } from '@codetanzania/majifix-jurisdiction';
-import { Priority, priorityRouter } from '../../src/index';
+import { Priority, priorityRouter } from '../../src';
 
 describe('Priority Rest API', () => {
   const jurisdiction = Jurisdiction.fake();
