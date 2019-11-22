@@ -71,7 +71,7 @@
     "coveralls": "3.0.8",
     "cz-conventional-changelog": "3.0.2",
     "doxdox": "3.0.0",
-    "eslint": "6.6.0",
+    "eslint": "6.7.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-config-prettier": "6.7.0",
     "eslint-plugin-import": "2.18.2",
