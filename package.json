@@ -68,7 +68,7 @@
     "@lykmapipo/mongoose-test-helpers": "0.7.24",
     "chai": "4.2.0",
     "commitizen": "4.0.3",
-    "coveralls": "3.0.8",
+    "coveralls": "3.0.9",
     "cz-conventional-changelog": "3.0.2",
     "doxdox": "3.0.0",
     "eslint": "6.7.0",
