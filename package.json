@@ -56,11 +56,11 @@
     "url": "https://majifix-priority.herokuapp.com/v1/priorities"
   },
   "devDependencies": {
-    "@babel/cli": "7.7.7",
-    "@babel/core": "7.7.7",
-    "@babel/node": "7.7.7",
-    "@babel/preset-env": "7.7.7",
-    "@babel/register": "7.7.7",
+    "@babel/cli": "7.24.1",
+    "@babel/core": "7.24.3",
+    "@babel/node": "7.23.9",
+    "@babel/preset-env": "7.24.3",
+    "@babel/register": "7.23.7",
     "@benmaruchu/faker": "4.3.0",
     "@commitlint/cli": "8.3.4",
     "@commitlint/config-conventional": "8.3.4",
