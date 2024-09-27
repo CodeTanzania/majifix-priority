@@ -67,7 +67,7 @@
     "@commitlint/travis-cli": "8.3.4",
     "@lykmapipo/mongoose-test-helpers": "0.7.24",
     "chai": "4.2.0",
-    "commitizen": "4.0.3",
+    "commitizen": "4.3.1",
     "coveralls": "3.0.9",
     "cz-conventional-changelog": "3.0.2",
     "doxdox": "3.0.0",
